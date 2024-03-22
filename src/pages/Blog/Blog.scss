@@ -1,0 +1,48 @@
+.blog-container {
+    background-color: #ffffff;
+
+
+    .box-blog {
+        .card {
+            border: none;
+
+            border-radius: none;
+
+
+            .blog-item {
+                // height: 13rem;
+
+
+                .blog-img {
+                    // height: 100%;
+                    object-fit: cover;
+                    opacity: 1;
+                    -webkit-transition: .3s ease-in-out;
+                    transition: .3s ease-in-out;
+
+                    // img {
+                    //     height: 100%;
+                    // }
+
+                    &:hover {
+                        opacity: .6;
+                        cursor: pointer;
+                    }
+                }
+
+                .blog-title {
+                    &:hover {
+                        color: #337ab7;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+
+
+
+
+    }
+
+
+}

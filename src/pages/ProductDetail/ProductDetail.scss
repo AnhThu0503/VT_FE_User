@@ -1,0 +1,146 @@
+.productdetail-background {
+    background-color: #f1f1f1;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    .productdetail-container {
+        .comment{
+            p{
+                padding: 0;
+                margin: 0;
+            }
+        }
+        .item-left {
+            background-color: #ffffff;
+
+            .btn-comment {
+                background-color: #41695b;
+                color: #ffffff;
+
+                &:hover {
+                    background-color: #046644;
+                    color: #ffffff;
+                }
+            }
+
+            .list-product {
+                img {
+                    border: 1px solid rgb(114, 114, 114);
+                }
+            }
+
+            .product-titlle {
+                font-family: 'UTMAvoBold', 'Roboto', sans-serif;
+                text-transform: uppercase;
+            }
+
+            .product-price {
+                font-size: 20px;
+                color: #FF4D00;
+            }
+
+            .input-group {
+                position: relative;
+                display: table;
+                border-collapse: separate;
+
+                #exampleInputAmount {
+                    text-align: center;
+                }
+            }
+
+            .ega-qty-control {
+                max-width: 120px;
+
+                .input-group-addon {
+                    padding: 6px 12px;
+                    font-size: 14px;
+                    font-weight: 400;
+                    line-height: 1;
+                    color: #555;
+                    text-align: center;
+                    background-color: #eee;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    width: 1%;
+                    white-space: nowrap;
+                    vertical-align: middle;
+                    display: table-cell;
+            
+
+                    &:first-child {
+                        border-right: 0;
+                        border-top-right-radius: 0;
+                        border-bottom-right-radius: 0;
+                    }
+
+                    &:last-child {
+                        border-left: 0;
+                        border-top-left-radius: 0;
+                        border-bottom-left-radius: 0;
+
+                    }
+                }
+
+                .cursor-pointer {
+                    cursor: pointer;
+                }
+
+                .form-control {
+                    display: table-cell;
+                    position: relative;
+                    z-index: 2;
+                    float: left;
+                    width: 100%;
+                    margin-bottom: 0;
+                    display: block;
+                    width: 100%;
+                    height: 34px;
+                    padding: 6px 12px;
+                    font-size: 14px;
+                    line-height: 1.42857143;
+                    color: #555;
+                    background-color: #fff;
+                    background-image: none;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+                    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+                    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+                    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+                    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+
+                }
+
+
+            }
+
+            .btn-add-cart {
+                border-radius: 10px;
+                color: #ffffff;
+                background-color: #FF4D00;
+
+                &:hover {
+                    background-color: #e44400;
+                    color: #fff;
+                }
+            }
+        }
+
+
+        .item-right {
+            .item-right_child {
+                background-color: #ffffff;
+            }
+
+            p {
+                margin-bottom: 0 !important;
+                color: #333;
+            }
+
+        }
+    }
+}
+

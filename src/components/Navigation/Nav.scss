@@ -1,0 +1,67 @@
+.navbar {
+    margin: 0;
+
+    .nav-link {
+        &:hover {
+            color: #ff4d00 !important;
+        }
+    }
+
+    .btn-search {
+        outline: 2px solid #ff4d00;
+        color: #ff4d00;
+
+        &:hover {
+            background-color: #ff4d00;
+            color: aliceblue;
+        }
+    }
+
+    .form-search {
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        svg {
+            position: absolute;
+            right: 20px;
+            z-index: 10;
+        }
+
+        input {
+            border-radius: 50px;
+        }
+    }
+
+    .btn-login {
+        // border: 1px solid #ff4d00;
+        color: #333 !important;
+
+        &:hover {
+
+            color: #ff4d00 !important;
+
+        }
+    }
+
+    .nav-item-cart {
+        position: relative;
+
+        span {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            padding: 5px;
+            background-color: rgb(205, 12, 12);
+            width: 24px;
+            height: 24px;
+            line-height: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            color: white;
+            font-size: 12px;
+        }
+    }
+}

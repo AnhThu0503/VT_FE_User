@@ -1,0 +1,52 @@
+.login-container {
+    background-color: #f0f2f5;
+    min-height: 5cqh;
+    padding-top: 20px;
+
+
+    .login-content {
+        border-radius: 10px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+        width: 400px;
+        height: 450px;
+        margin: auto;
+
+
+        .forgot-password {
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        .btn-login {
+            background-color: #ff4d00;
+            color: #fff;
+
+            &:hover {
+                background-color: #e44400;
+                color: #fff;
+            }
+        }
+
+        .btn-register {
+            background-color: #41695b;
+            color: #fff;
+
+            &:hover {
+                background-color: #046644;
+                color: #ffffff;
+            }
+        }
+
+        .text-login {
+            text-transform: uppercase;
+            font-size: 30px;
+            // color: #1877f2;
+            color: #ff4d00;
+            font-weight: 600;
+        }
+    }
+}

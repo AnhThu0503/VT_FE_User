@@ -1,0 +1,38 @@
+.cart-background {
+    background-color: #f1f1f1;
+
+    .btn-tieptucmuahang {
+        color: #337ab7;
+        text-decoration: none;
+
+        &:hover {
+            color: #0f4d82;
+        }
+    }
+
+    .btn-payment {
+        background-color: #ff4d00;
+        color: #fff;
+
+        &:hover {
+            background-color: #e44400;
+            color: #fff;
+        }
+    }
+
+    .btn-delete {
+        background-color: #41695b;
+        color: #ffffff;
+
+        &:hover {
+            background-color: #046644;
+            color: #ffffff;
+        }
+    }
+
+    .total-payment {}
+
+    .img-product {
+        width: 8em;
+    }
+}

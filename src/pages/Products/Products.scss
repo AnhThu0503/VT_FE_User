@@ -1,0 +1,101 @@
+.products-background {
+    background-color: #f1f1f1;
+    // margin-left: 0 !important;
+    // margin-right: 0 !important;
+    // padding-left: 0 !important;
+    // padding-right: 0 !important;
+
+    a {
+        color: black;
+        &:hover{
+            color: black;
+        }
+
+        del {
+            color: rgb(124, 124, 124);
+        }
+    }
+
+    .products-container {
+        background-color: #ffffff;
+
+        .products-body {
+            text-align: center;
+
+            .product-img {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+                -webkit-transition: .3s ease-in-out;
+                transition: .3s ease-in-out;
+
+                &:hover {
+                    -webkit-transform: scale(1.1);
+                    transform: scale(1.1);
+                    cursor: pointer;
+                }
+            }
+
+            .product-name {
+                color: #666666;
+                flex: 1;
+                padding: 8px;
+                padding-bottom: 4px;
+                font-size: 16px;
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+
+            .product-price {
+                color: #e64906;
+                font-weight: 600;
+                font-size: 18px;
+                margin-bottom: 10px;
+                display: block;
+            }
+
+            .product-weight {
+                margin-bottom: 5px;
+                font-size: 14px;
+            }
+
+            .loader {
+                width: 48px;
+                height: 48px;
+                border: 5px solid #c8c8c8;
+                border-bottom-color: transparent;
+                border-radius: 50%;
+                display: inline-block;
+                box-sizing: border-box;
+                animation: rotation 1s linear infinite;
+            }
+
+            @keyframes rotation {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+
+            .box-loader {
+                padding: 2em;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+        .title-primary {
+            font-weight: 400;
+            font-size: 1.2rem;
+            font-family: inherit;
+            color: #333;
+            text-transform: uppercase;
+        }
+    }
+
+}

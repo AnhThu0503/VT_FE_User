@@ -1,0 +1,95 @@
+.homepage-background {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    .homepage-container {
+        .section-container {
+            background-color: #ffffff;
+
+            .section-header {
+                justify-content: space-between;
+                align-items: center;
+                margin-left: -12px;
+                margin-right: -12px;
+
+                .section-title {
+                    font-weight: 400;
+                    font-size: 1.5em;
+                    color: #333;
+                    font-family: inherit;
+                    line-height: 1.1;
+
+                }
+
+                .section-btn {
+                    color: #337ab7;
+                    text-decoration: none;
+
+                    &:hover {
+                        color: #0f4d82;
+                    }
+                }
+            }
+
+
+            .section-body {
+                text-align: center;
+
+
+                .product-img {
+                    -webkit-transform: scale(1);
+                    transform: scale(1);
+                    -webkit-transition: .3s ease-in-out;
+                    transition: .3s ease-in-out;
+
+                    &:hover {
+                        -webkit-transform: scale(1.1);
+                        transform: scale(1.1);
+                        cursor: pointer;
+                    }
+                }
+
+            }
+
+            .product-name {
+                color: #666666;
+                flex: 1;
+                padding: 8px;
+                padding-bottom: 4px;
+                font-size: 16px;
+
+                &:hover {
+                    cursor: pointer;
+                }
+
+
+
+            }
+
+            .product-price {
+                color: #e64906;
+                font-weight: 600;
+                font-size: 18px;
+                margin-bottom: 10px;
+                display: block;
+            }
+
+
+
+            .product-weight {
+                margin-bottom: 5px;
+                font-size: 14px;
+                color: #333 !important;
+
+                &:hover {
+                    color: #333 !important;
+
+                }
+
+
+            }
+        }
+    }
+}
