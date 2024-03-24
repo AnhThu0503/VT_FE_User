@@ -42,7 +42,11 @@ const Nav = ({ flag, setFlag }) => {
           ND_id: user.ND_id,
         },
       });
-      setSumItemCart(response.data);
+      if (response.data) {
+        setSumItemCart(response.data);
+      } else {
+        setSumItemCart(0);
+      }
     } catch (e) {
       console.error(e);
     }

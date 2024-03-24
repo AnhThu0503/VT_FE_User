@@ -1,31 +1,38 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ArrowLeft } from "react-bootstrap-icons";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import "./Cart.scss";
 import { UserContext } from "../../context/userContext";
 import axios from "axios";
-import {
-  notification,
-  Button,
-  Checkbox,
-  Form,
-  Input,
-  Select,
-  Space,
-} from "antd";
-const key = "updatable";
-const { Option } = Select;
+import { Button, notification, Form, Select, Input } from "antd";
+import { loadStripe } from "@stripe/stripe-js";
 
+const key = "updatable";
 const Cart = (props) => {
   const [api, contextHolder] = notification.useNotification();
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [products, setProducts] = useState([]);
   const [sum_price, setSumPrice] = useState(0);
+  const [payment, setPayment] = useState("trucTiep");
+
   useEffect(() => {
     if (user?.ND_id) {
       getItemCart();
     }
   }, [user.ND_id]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.post("/api/customer/infor", {
+          ND_id: user?.ND_id,
+        });
+        console.log("goi api", response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
 
   const getItemCart = async () => {
     try {
@@ -39,8 +46,8 @@ const Cart = (props) => {
       response.data.forEach((item) => {
         sum +=
           (item.discount
-            ? item.G_giaBanDau - item.G_giaBanDau
-            : item.G_giaBanDau) * item.soLuong;
+            ? item.G_thoiGia - item.discount.KM_mucGiamGia
+            : item.G_thoiGia) * item.soLuong;
       });
       setSumPrice(sum);
     } catch (e) {
@@ -72,64 +79,70 @@ const Cart = (props) => {
       console.error(e);
     }
   };
-  const layout = {
-    labelCol: {},
-    wrapperCol: {},
-  };
-  const tailLayout = {
-    wrapperCol: {},
-  };
-  const [form] = Form.useForm();
-  const onGenderChange = (value) => {
-    switch (value) {
-      case "male":
-        form.setFieldsValue({
-          note: "Hi, man!",
-        });
-        break;
-      case "female":
-        form.setFieldsValue({
-          note: "Hi, lady!",
-        });
-        break;
-      case "other":
-        form.setFieldsValue({
-          note: "Hi there!",
-        });
-        break;
-      default:
-    }
-  };
-  const onFinish = (values) => {
-    console.log(values);
-  };
-  const onReset = () => {
-    form.resetFields();
-  };
-  const onFill = () => {
-    form.setFieldsValue({
-      note: "Hello world!",
-      gender: "male",
-    });
-  };
   const createOrder = async () => {
-    try {
-      console.log(user?.ND_id);
-      console.log("ABC" + user.ND_diaChi);
-      const response = await axios.post("/api/order", {
+    if (payment === "online") {
+      const online = await makePayment();
+      const onlinePayment = {
         ND_id: user?.ND_id,
         tongtien: sum_price,
         trangthai: "Đang chuẩn bị",
-        PTTT: "Thanh Toán khi nhận hàng",
+        PTTT: "Thanh toán Online",
         sanpham: products,
-      });
-      if (response) {
-        window.location.reload();
+      };
+      localStorage.setItem("orders", JSON.stringify(onlinePayment));
+    } else {
+      try {
+        const response = await axios.post("/api/order", {
+          ND_id: user?.ND_id,
+          tongtien: sum_price,
+          trangthai: "Đang chuẩn bị",
+          PTTT: "Thanh Toán khi nhận hàng",
+          sanpham: products,
+        });
+        if (response) {
+          window.location.reload();
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
+
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+    setPayment(value);
+  };
+
+  const makePayment = async () => {
+    const stripe = await loadStripe(
+      "pk_test_51OxTc1RxWukTEIoI2XVeckTJvqcoeCREO94fmm6FOOtMMYnf0vdd1UdBbjZYMAxosuHIwHPNPpPl5uOO8KkgkevF00ZrwiNZAX"
+    );
+    const body = {
+      products: products,
+    };
+
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    const response = await fetch("/api/paymentOnline", {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(body),
+    });
+
+    const session = await response.json();
+
+    const result = stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+
+    if (result.error) {
+      console.log(result.error);
+    }
+  };
+
+  console.log(products);
 
   return (
     <div className="cart-background my-4">
@@ -163,7 +176,7 @@ const Cart = (props) => {
                       <div>
                         {item.discount && (
                           <del>
-                            {item.G_giaBanDau.toLocaleString("vi", {
+                            {item.G_thoiGia.toLocaleString("vi", {
                               style: "currency",
                               currency: "VND",
                             })}
@@ -172,12 +185,12 @@ const Cart = (props) => {
                         <p className="card-text item-price">
                           {item.discount
                             ? (
-                                item.G_giaBanDau - item.discount.KM_mucGiamGia
+                                item.G_thoiGia - item.discount.KM_mucGiamGia
                               ).toLocaleString("vi", {
                                 style: "currency",
                                 currency: "VND",
                               })
-                            : item.G_giaBanDau.toLocaleString("vi", {
+                            : item.G_thoiGia.toLocaleString("vi", {
                                 style: "currency",
                                 currency: "VND",
                               })}
@@ -188,8 +201,8 @@ const Cart = (props) => {
                     <td style={{ verticalAlign: "middle" }}>
                       {(
                         (item.discount
-                          ? item.G_giaBanDau - item.discount.KM_mucGiamGia
-                          : item.G_giaBanDau) * item.soLuong
+                          ? item.G_thoiGia - item.discount.KM_mucGiamGia
+                          : item.G_thoiGia) * item.soLuong
                       ).toLocaleString("vi", {
                         style: "currency",
                         currency: "VND",
@@ -218,91 +231,36 @@ const Cart = (props) => {
               </tr>
             </tbody>
           </table>
-          <div className="col-sm-12">
-            <Form
-              {...layout}
-              form={form}
-              name="control-hooks"
-              onFinish={onFinish}
-              style={{}}
-              layout="vertical"
-            >
-              <Form.Item
-                name="ND_diaChi"
-                label="Địa chỉ nhận hàng"
-                rules={[
-                  {
-                    required: true,
-                    message: "Vui lòng xác nhận địa chỉ nhận hàng!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                name="DH_phuongThucTT"
-                label="Phương thức thanh toán"
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
-              >
-                <Select
-                  placeholder="Chọn phương thức thanh toán"
-                  onChange={onGenderChange}
-                  allowClear
-                >
-                  <Option value="1">Thanh toán khi nhận hàng</Option>
-                  <Option value="2">Thanh toán trực tuyến</Option>
-                </Select>
-              </Form.Item>
-              <Form.Item
-                noStyle
-                shouldUpdate={(prevValues, currentValues) =>
-                  prevValues.gender !== currentValues.gender
-                }
-              >
-                {({ getFieldValue }) =>
-                  getFieldValue("gender") === "other" ? (
-                    <Form.Item
-                      name="customizeGender"
-                      label="Customize Gender"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Vui lòng chọn phương thức thanh toán!",
-                        },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  ) : null
-                }
-              </Form.Item>
-              <Form.Item {...tailLayout}>
-                <Space>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    className="btn btn-payment"
-                    onClick={createOrder}
-                    style={{ width: "215px" }}
-                  >
-                    Thanh toán
-                  </Button>
-                </Space>
-              </Form.Item>
-            </Form>
+          <div>
+            {user?.ND_id ? (
+              <div>
+                <div>{user.ND_ten}</div>
+                <div>{user.ND_diaChi}</div>
+              </div>
+            ) : (
+              <div className="box-loader">
+                <span class="loader"></span>
+              </div>
+            )}
           </div>
           <div className="text-end">
-            {/* <button
+            {/* phuong thuc thanh toan */}
+            <Select
+              defaultValue="Thanh toán trực tiếp"
+              style={{ width: 200 }}
+              onChange={handleChange}
+              options={[
+                { value: "trucTiep", label: "Thanh toán trực tiếp" },
+                { value: "online", label: "Thanh toán online" },
+              ]}
+            />
+            <button
               className="btn btn-payment"
               onClick={createOrder}
               style={{ width: "215px" }}
             >
               Thanh toán
-            </button> */}
+            </button>
           </div>
           <div className="d-flex justify-content-end mt-3">
             <p className="border border-1 border-secondary p-2">
