@@ -111,7 +111,10 @@ const ProductDetail = () => {
 
   return (
     <div>
-      <div className="container-fluid productdetail-background">
+      <div
+        className="container-fluid productdetail-background"
+        style={{ paddingTop: "4.5rem" }}
+      >
         {/* <Nav /> */}
         <div className="container productdetail-container my-4 px-4">
           <div className="row ">

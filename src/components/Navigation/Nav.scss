@@ -1,7 +1,12 @@
 .navbar {
     margin: 0;
-
+    background-color: rgba(32, 26, 22, .9) !important;
     .nav-link {
+        color: #fff !important;
+        font-family: "Nunito", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
         &:hover {
             color: #ff4d00 !important;
         }
@@ -35,7 +40,7 @@
 
     .btn-login {
         // border: 1px solid #ff4d00;
-        color: #333 !important;
+        color: #fff !important;
 
         &:hover {
 

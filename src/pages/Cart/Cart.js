@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ArrowLeft } from "react-bootstrap-icons";
-import { NavLink, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Cart.scss";
 import { UserContext } from "../../context/userContext";
 import axios from "axios";
-import { Button, notification, Form, Select, Input } from "antd";
+import { notification, Select } from "antd";
 import { loadStripe } from "@stripe/stripe-js";
 
 const key = "updatable";
-const Cart = (props) => {
+const Cart = () => {
   const [api, contextHolder] = notification.useNotification();
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [products, setProducts] = useState([]);
   const [sum_price, setSumPrice] = useState(0);
   const [payment, setPayment] = useState("trucTiep");
@@ -145,7 +145,7 @@ const Cart = (props) => {
   console.log(products);
 
   return (
-    <div className="cart-background my-4">
+    <div className="cart-background my-4" style={{ paddingTop: "4.5rem" }}>
       {/* <Nav /> */}
 
       <div className="container p-4" style={{ backgroundColor: "#ffffff" }}>
@@ -221,9 +221,9 @@ const Cart = (props) => {
 
               <tr>
                 <td colSpan={3}>
-                  <NavLink to="/" className="btn-tieptucmuahang">
+                  <Link to="/" className="btn-tieptucmuahang">
                     <ArrowLeft /> Tiếp tục mua hàng
-                  </NavLink>
+                  </Link>
                 </td>
                 <td colSpan={3}>
                   <button className="btn btn-"></button>
@@ -239,7 +239,7 @@ const Cart = (props) => {
               </div>
             ) : (
               <div className="box-loader">
-                <span class="loader"></span>
+                <span className="loader"></span>
               </div>
             )}
           </div>

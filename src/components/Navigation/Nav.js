@@ -2,7 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import "./Nav.scss";
 import { Link } from "react-router-dom";
 import logo3 from "../../assets/logo/logo3.png";
-import { Cart3, PersonFill, Search, CardHeading } from "react-bootstrap-icons";
+import { Cart3, PersonFill } from "react-bootstrap-icons";
+import { MdOutlineLogout } from "react-icons/md";
+
 import axios from "axios";
 import { UserContext } from "../../context/userContext";
 
@@ -76,7 +78,7 @@ const Nav = ({ flag, setFlag }) => {
 
   return (
     <div>
-      <nav className=" navbar navbar-expand-lg navbar-light bg-light fixed-sm-top">
+      <nav className=" navbar navbar-expand-lg navbar-light fixed-top py-2">
         <div className=" container">
           <Link className="navbar-brand" to="/">
             <img src={logo3} style={{ width: "4.5rem", height: "3rem" }}></img>
@@ -97,7 +99,7 @@ const Nav = ({ flag, setFlag }) => {
               className="navbar-nav me-auto mb-2 mb-lg-0"
               style={{ flexGrow: "1" }}
             >
-              <li className="nav-item dropdown ms-3 me-3">
+              <li className="nav-item dropdown ms-3 me-3 mt-1">
                 <a
                   className="nav-link dropdown-toggle"
                   id="navbarDropdown"
@@ -239,8 +241,8 @@ const Nav = ({ flag, setFlag }) => {
               </li>
 
               <li className="nav-item ">
-                <Link className="nav-link btn" to="/blog">
-                  <CardHeading className="fs-5" />
+                <Link className="nav-link btn mt-1" to="/blog">
+                  Blog
                 </Link>
               </li>
               {user.ND_id ? (
@@ -263,14 +265,15 @@ const Nav = ({ flag, setFlag }) => {
                     <Link className="nav-link btn" to="/account">
                       <PersonFill className="fs-4 me-1" />
                     </Link>
-                    <Link className="nav-link btn" onClick={handleLogout}>
-                      Đăng xuất
+                    <Link className="nav-link btn mt-1" onClick={handleLogout}>
+                      {user.ND_ten}
+                      <MdOutlineLogout className="fs-5 ms-1 " />
                     </Link>
                   </li>
                 </>
               ) : (
-                <li className="nav-item">
-                  <Link className="nav-link btn btn-login" to="/login">
+                <li className="nav-item mt-1">
+                  <Link className="nav-link btn btn-login " to="/login">
                     Đăng nhập
                   </Link>
                 </li>

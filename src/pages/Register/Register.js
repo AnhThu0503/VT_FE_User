@@ -1,12 +1,11 @@
 import "./Register.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button, Form, Input, Radio, notification } from "antd";
 import axios from "axios";
 const key = "updatable";
 
 const Register = (props) => {
   const [api, contextHolder] = notification.useNotification();
-  const navigate = useNavigate();
 
   const handleRegister = async (values) => {
     if (values.password === values.passwordConfirm) {
@@ -35,7 +34,7 @@ const Register = (props) => {
   };
 
   return (
-    <div className="register-container my-4">
+    <div className="register-container my-4" style={{ paddingTop: "4.5rem" }}>
       <div className="row">
         <div className="register-content col-12  py-3 mx-auto">
           <div className="text-center text-register mb-3">

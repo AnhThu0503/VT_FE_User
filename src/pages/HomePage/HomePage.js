@@ -25,7 +25,10 @@ const HomePage = (props) => {
   };
 
   return (
-    <div className="container-fluid homepage-background mt-4">
+    <div
+      className="container-fluid homepage-background mt-2"
+      style={{ paddingTop: "4.5rem" }}
+    >
       {/* <Nav /> */}
       <div className="container homepage-container">
         <Banner />
@@ -34,7 +37,7 @@ const HomePage = (props) => {
             categorys.map((category) => (
               <div
                 key={category.DMSP_id}
-                className="container section-container p-5 my-4"
+                className="container section-container p-5 my-3"
               >
                 <div className="section-header d-flex mb-4">
                   <span className="section-title">{category.DMSP_ten}</span>

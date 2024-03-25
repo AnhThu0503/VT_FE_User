@@ -1,19 +1,19 @@
+import "./Footer.scss";
 const Footer = () => {
   return (
     <div
       className="container-fluid footer-container"
       style={{
-        backgroundColor: "#33261b",
+        backgroundColor: "rgba(32, 26, 22, .9)",
       }}
     >
       <div className="container" style={{ color: "#ffffff" }}>
         <div className="row p-4">
-          <div className="col-sm-3 ">
-            <h5>WWW.SOCTRANGSPECIAL.VN</h5>
+          <div className="col-sm-4 ">
+            <h5>SÓC TRĂNG SPECIAL</h5>
             <p>
-              Chuyên cung cấp đặc sản bánh Pía Sóc Trăng chính gốc của những
-              thương hiệu uy tín nhất: Tân Huê Viên , Tân Hưng Luôn có bánh mới
-              nhất mỗi ngày và giao hàng tận nơi nhanh nhất
+              Chuyên cung cấp đặc sản Sóc Trăng chính gốc của những thương hiệu
+              uy tín nhất giao hàng tận nơi nhanh nhất.
             </p>
           </div>
           <div className="col-sm-3">
@@ -26,15 +26,18 @@ const Footer = () => {
               Chính sách chiết khấu <br />
             </p>
           </div>
-          <div className="col-sm-3">
+          <div className="col-sm-2">
             <h5>LIÊN KẾT</h5>
-            <p>bánh phồng tôm | bánh pía sóc trăng | Lạp xưởng</p>
+            <p>
+              Bánh Pía sóc trăng <br /> Lạp xưởng <br /> Bánh Trung Thu <br />
+              Bưởi 5 roi <br /> Vú sữa tím
+            </p>
           </div>
 
           <div className="col-sm-3">
             <h5>LIÊN HỆ</h5>
             <p>
-              Số điện thoại: 0358184035 <br />
+              Hotline: 0358184035 <br />
               Email: duonganhthu@gmail.com
             </p>
           </div>
