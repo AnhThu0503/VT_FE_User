@@ -114,18 +114,11 @@ const FormOeder = () => {
           defaultValue={record.DH_trangThai}
           style={{ width: 150 }}
           onChange={(e) => handleChange(e, record)}
-          options={[
-            { value: "Đã nhận hàng", label: "Đã nhận hàng" },
-            { value: "Hủy đơn hàng", label: "Hủy đơn hàng" },
-          ]}
-        />
+        >
+          <Select.Option value="Đã nhận hàng">Đã nhận hàng</Select.Option>
+          <Select.Option value="Hủy đơn hàng">Hủy đơn hàng</Select.Option>
+        </Select>
       ),
-      filters: [
-        { text: "Đã nhận hàng", value: "Đã nhận hàng" },
-        { text: "Hủy đơn hàng", value: "Hủy đơn hàng" },
-      ],
-      filterSearch: true,
-      onFilter: (value, record) => record.DH_trangThai === value,
     },
     {
       title: "Chi tiết đơn hàng",

@@ -14,6 +14,7 @@ const Cart = () => {
   const [products, setProducts] = useState([]);
   const [sum_price, setSumPrice] = useState(0);
   const [payment, setPayment] = useState("trucTiep");
+  const [numberProduct, setNumberProduct] = useState(1);
 
   useEffect(() => {
     if (user?.ND_id) {
@@ -40,20 +41,29 @@ const Cart = () => {
         params: {
           ND_id: user.ND_id,
         },
+        numberProduct: numberProduct,
       });
       setProducts(response.data);
-      var sum = 0;
-      response.data.forEach((item) => {
-        sum +=
-          (item.discount
-            ? item.G_thoiGia - item.discount.KM_mucGiamGia
-            : item.G_thoiGia) * item.soLuong;
-      });
-      setSumPrice(sum);
+      caculateTotal(response.data);
     } catch (e) {
       console.error(e);
     }
   };
+
+  const caculateTotal = (data) => {
+    var sum = 0;
+    data.forEach((item) => {
+      sum +=
+        (item.discount
+          ? item.G_thoiGia - item.discount.KM_mucGiamGia
+          : item.G_thoiGia) * item.soLuong;
+    });
+    setSumPrice(sum);
+  };
+
+  useEffect(() => {
+    caculateTotal(products);
+  }, [products]);
 
   const removeItem = async (item_id) => {
     try {
@@ -79,13 +89,14 @@ const Cart = () => {
       console.error(e);
     }
   };
+
   const createOrder = async () => {
     if (payment === "online") {
       const online = await makePayment();
       const onlinePayment = {
         ND_id: user?.ND_id,
         tongtien: sum_price,
-        trangthai: "Đang chuẩn bị",
+        trangthai: "Chờ xác nhận",
         PTTT: "Thanh toán Online",
         sanpham: products,
       };
@@ -95,7 +106,7 @@ const Cart = () => {
         const response = await axios.post("/api/order", {
           ND_id: user?.ND_id,
           tongtien: sum_price,
-          trangthai: "Đang chuẩn bị",
+          trangthai: "Chờ xác nhận ",
           PTTT: "Thanh Toán khi nhận hàng",
           sanpham: products,
         });
@@ -103,13 +114,16 @@ const Cart = () => {
           window.location.reload();
         }
       } catch (error) {
-        console.log(error);
+        if (
+          error.response.data.error === "Product quantity is not sufficient"
+        ) {
+          alert("san pham vua qua kho");
+        }
       }
     }
   };
 
   const handleChange = (value) => {
-    console.log(`selected ${value}`);
     setPayment(value);
   };
 
@@ -142,7 +156,41 @@ const Cart = () => {
     }
   };
 
-  console.log(products);
+  const handleAdd = (index) => {
+    // Create a copy of the products array
+    const updatedProducts = [...products];
+
+    // Update the soLuong property of the product at the specified index
+    updatedProducts[index] = {
+      ...updatedProducts[index],
+      soLuong: updatedProducts[index].soLuong + 1,
+    };
+
+    if (updatedProducts[index].soLuong >= 10) {
+      alert("khong qua 10");
+      return;
+    }
+    // Set the state with the updated array
+    setProducts(updatedProducts);
+  };
+
+  const handleDelete = (index) => {
+    // Create a copy of the products array
+    const updatedProducts = [...products];
+
+    // Update the soLuong property of the product at the specified index
+    updatedProducts[index] = {
+      ...updatedProducts[index],
+      soLuong: updatedProducts[index].soLuong - 1,
+    };
+
+    if (updatedProducts[index].soLuong <= 0) {
+      alert("khong duoc am");
+      return;
+    }
+    // Set the state with the updated array
+    setProducts(updatedProducts);
+  };
 
   return (
     <div className="cart-background my-4" style={{ paddingTop: "4.5rem" }}>
@@ -150,13 +198,14 @@ const Cart = () => {
 
       <div className="container p-4" style={{ backgroundColor: "#ffffff" }}>
         <h3>Giỏ hàng</h3>
-        <div className="table-responsive">
-          <table className="table">
+        <div className="table-responsive ">
+          <table className="table table-light p-4 mt-2">
             <thead>
               <tr>
                 <th scope="col">STT</th>
                 <th scope="col"></th>
                 <th scope="col">Tên sản phẩm</th>
+
                 <th scope="col">Đơn giá</th>
                 <th scope="col">Số lượng</th>
                 <th scope="col">Thành tiền</th>
@@ -171,7 +220,10 @@ const Cart = () => {
                     <td scope="row" style={{ verticalAlign: "middle" }}>
                       <img src={item.image} className="img-fluid img-product" />
                     </td>
-                    <td style={{ verticalAlign: "middle" }}>{item.SP_ten}</td>
+                    <td style={{ verticalAlign: "middle" }}>
+                      {item.SP_ten}, {item.SP_trongLuong} {item.SP_donViTinh}
+                    </td>
+
                     <td style={{ verticalAlign: "middle" }}>
                       <div>
                         {item.discount && (
@@ -197,7 +249,35 @@ const Cart = () => {
                         </p>
                       </div>
                     </td>
-                    <td style={{ verticalAlign: "middle" }}>{item.soLuong}</td>
+                    <td style={{ verticalAlign: "middle" }}>
+                      <div className="input-group ega-qty-control">
+                        <div
+                          className="input-group-addon cursor-pointer"
+                          onClick={() => {
+                            handleDelete(idx);
+                          }}
+                        >
+                          -
+                        </div>
+                        <input
+                          type="text"
+                          className="text-center form-control"
+                          maxLength={5}
+                          name="quantity"
+                          value={item.soLuong}
+                          id="exampleInputAmount"
+                        />
+                        <div
+                          className="input-group-addon cursor-pointer"
+                          onClick={() => {
+                            handleAdd(idx);
+                          }}
+                          style={{ marginLeft: "-10px" }}
+                        >
+                          +
+                        </div>
+                      </div>
+                    </td>
                     <td style={{ verticalAlign: "middle" }}>
                       {(
                         (item.discount
@@ -208,7 +288,10 @@ const Cart = () => {
                         currency: "VND",
                       })}
                     </td>
-                    <td style={{ verticalAlign: "middle" }}>
+                    <td
+                      style={{ verticalAlign: "middle" }}
+                      className="text-end"
+                    >
                       <button
                         className="btn btn-delete"
                         onClick={() => removeItem(item.SPGH_id)}
@@ -220,58 +303,69 @@ const Cart = () => {
                 ))}
 
               <tr>
-                <td colSpan={3}>
+                <td colSpan={8}>
                   <Link to="/" className="btn-tieptucmuahang">
                     <ArrowLeft /> Tiếp tục mua hàng
                   </Link>
                 </td>
-                <td colSpan={3}>
-                  <button className="btn btn-"></button>
-                </td>
               </tr>
             </tbody>
           </table>
+          <div className="d-flex" style={{ justifyContent: "space-between" }}>
+            <div className="">
+              {/* phuong thuc thanh toan */}
+              <Select
+                defaultValue="Thanh toán trực tiếp"
+                className=""
+                size="large"
+                style={{ width: 190 }}
+                onChange={handleChange}
+                options={[
+                  { value: "trucTiep", label: "Thanh toán trực tiếp" },
+                  { value: "online", label: "Thanh toán online" },
+                ]}
+              />
+            </div>
+            <div className="d-flex">
+              <p className="border border-1 border-secondary p-2">
+                Tổng thanh toán
+              </p>
+              <p className="border border-1 border-secondary p-2">
+                {sum_price.toLocaleString("vi", {
+                  style: "currency",
+                  currency: "VND",
+                })}
+              </p>
+            </div>
+          </div>
           <div>
             {user?.ND_id ? (
               <div>
-                <div>{user.ND_ten}</div>
-                <div>{user.ND_diaChi}</div>
+                <div>
+                  {user?.ND_diaChi ? (
+                    <div className="text-end">
+                      <button
+                        className="btn btn-payment"
+                        onClick={createOrder}
+                        style={{ width: "216px" }}
+                      >
+                        Thanh toán
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="text-end ">
+                      <Link to="/account/address" className="update-address">
+                        Cập nhật địa chỉ để thanh tóan
+                      </Link>
+                    </div>
+                  )}
+                </div>
               </div>
             ) : (
               <div className="box-loader">
                 <span className="loader"></span>
               </div>
             )}
-          </div>
-          <div className="text-end">
-            {/* phuong thuc thanh toan */}
-            <Select
-              defaultValue="Thanh toán trực tiếp"
-              style={{ width: 200 }}
-              onChange={handleChange}
-              options={[
-                { value: "trucTiep", label: "Thanh toán trực tiếp" },
-                { value: "online", label: "Thanh toán online" },
-              ]}
-            />
-            <button
-              className="btn btn-payment"
-              onClick={createOrder}
-              style={{ width: "215px" }}
-            >
-              Thanh toán
-            </button>
-          </div>
-          <div className="d-flex justify-content-end mt-3">
-            <p className="border border-1 border-secondary p-2">
-              Tổng thanh toán
-            </p>
-            <p className="border border-1 border-secondary p-2">
-              {sum_price.toLocaleString("vi", {
-                style: "currency",
-                currency: "VND",
-              })}
-            </p>
           </div>
         </div>
       </div>

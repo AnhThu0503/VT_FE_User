@@ -112,7 +112,10 @@ const Nav = ({ flag, setFlag }) => {
                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                   {categorys &&
                     categorys.map((category) => (
-                      <li key={category.DMSP_id}>
+                      <li
+                        key={category.DMSP_id}
+                        style={{ borderBottom: "1px solid #67666638" }}
+                      >
                         <Link
                           to={`/products/${category.DMSP_id}`}
                           className="dropdown-item"
@@ -123,7 +126,12 @@ const Nav = ({ flag, setFlag }) => {
                     ))}
                 </ul>
               </li>
-              <li className="nav-item ms-4 me-4" style={{ flexGrow: "1" }}>
+              <li
+                className="nav-item ms-4 me-4"
+                style={{
+                  flexGrow: "1",
+                }}
+              >
                 <form className="d-flex form-search">
                   <input
                     value={searchValue}
@@ -143,16 +151,18 @@ const Nav = ({ flag, setFlag }) => {
                     <div
                       id="inputSearch"
                       style={{
-                        width: "100%",
-                        height: "30rem",
+                        width: "98%",
+                        height: "25rem",
+                        borderRadius: "5px",
                         backgroundColor: "#fff",
-                        borderRadius: "1rem",
                         boxShadow: "1px 2px 3px solid #000",
                         position: "absolute",
                         zIndex: "10",
                         top: "2.6rem",
-                        maxHeight: "30rem",
-                        overflow: "auto",
+                        maxHeight: "25rem",
+                        // overflow: "auto",
+                        overflow: "hidden",
+                        overflowY: "scroll",
                       }}
                     >
                       {products.length <= 0 ? (
@@ -175,6 +185,7 @@ const Nav = ({ flag, setFlag }) => {
                                 to={`/product/${product.SP_id}`}
                                 style={{
                                   textDecoration: "none",
+                                  color: "#333",
                                 }}
                                 onClick={() => {
                                   setIsSeach(false);
@@ -190,8 +201,10 @@ const Nav = ({ flag, setFlag }) => {
                                     cursor: "pointer",
                                     margin: "10px auto",
                                     borderRadius: "8px",
-                                    backgroundColor: "#ccc", // Change background color on hover
+                                    backgroundColor: "rgb(238 238 238)",
                                     boxShadow: "1px 2px 3px #ccc",
+                                    paddingTop: "10px",
+                                    paddingBottom: "10px",
                                   }}
                                 >
                                   <div
