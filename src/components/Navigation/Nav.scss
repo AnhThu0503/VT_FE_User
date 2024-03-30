@@ -9,7 +9,9 @@
         font-style: normal;
         &:hover {
             color: #ff4d00 !important;
+            cursor: pointer;
         }
+       
     }
 
     .btn-search {
@@ -36,6 +38,11 @@
         input {
             border-radius: 50px;
         }
+        .display-product-search{
+            &:hover{
+                background-color: #c4c4c442;
+            }
+        }
     }
 
     .btn-login {
@@ -43,12 +50,12 @@
         color: #fff !important;
 
         &:hover {
-
+            cursor: pointer;
             color: #ff4d00 !important;
 
         }
     }
-
+    
     .nav-item-cart {
         position: relative;
 

@@ -36,11 +36,13 @@ const FormInfo = () => {
       if (response.data) {
         api.open({
           key,
+          type: "success",
           message: "Cập nhật thông tin thành công",
         });
       } else {
         api.open({
           key,
+          type: "error",
           message: "Cập nhật thông tin thất bại",
         });
       }

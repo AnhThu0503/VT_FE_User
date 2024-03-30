@@ -1,31 +1,31 @@
 import "./Register.scss";
 import { Link } from "react-router-dom";
-import { Button, Form, Input, Radio, notification } from "antd";
+import { Button, Form, Input, Radio, message } from "antd";
 import axios from "axios";
 const key = "updatable";
 
 const Register = (props) => {
-  const [api, contextHolder] = notification.useNotification();
+  const [messageApi, contextHolder] = message.useMessage();
 
   const handleRegister = async (values) => {
     if (values.password === values.passwordConfirm) {
       const response = await axios.post("/api/users", values);
       if (response.data.success) {
-        api.open({
-          key,
-          message: <p>Đăng ký thành công</p>,
+        messageApi.open({
+          type: "success",
+          content: "Đăng ký tài khoản thành công",
         });
         window.location.href = "/login";
       } else {
-        api.open({
-          key,
-          message: response.data.message,
+        messageApi.open({
+          type: "error",
+          content: "Đăng ký tài khoản thất bại",
         });
       }
     } else {
-      api.open({
-        key,
-        message: <p>Mật khẩu không khớp</p>,
+      messageApi.open({
+        type: "error",
+        content: "Mật khẩu không khớp",
       });
     }
   };

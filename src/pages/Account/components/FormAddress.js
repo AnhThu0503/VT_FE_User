@@ -22,6 +22,7 @@ const FormAddress = () => {
         if (response.data) {
           api.open({
             key,
+            type: "success",
             message: "Cập nhật địa chỉ thành công",
           });
           setCustomer({
@@ -31,6 +32,7 @@ const FormAddress = () => {
         } else {
           api.open({
             key,
+            type: "error",
             message: "Cập nhật địa chỉ thất bại",
           });
         }

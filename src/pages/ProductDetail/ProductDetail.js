@@ -57,13 +57,15 @@ const ProductDetail = () => {
       if (response.data) {
         api.open({
           key,
-          message: "Thêm sản phẩm thành công",
+          type: "success",
+          message: "Thêm sản phẩm vào giỏ hàng thành công",
         });
         window.location.href = `/product/${id}`;
       } else {
         api.open({
           key,
-          message: "Thêm sản phẩm thất bại",
+          type: "error",
+          message: "Thêm sản phẩm vào giỏ hàng thất bại",
         });
       }
     } catch (e) {
@@ -76,7 +78,8 @@ const ProductDetail = () => {
     if (newNumber >= 10) {
       api.open({
         key,
-        message: "Sản phẩm không được quá 10",
+        type: "error",
+        message: "Số lượng sản phẩm không được lớn hơn 9",
       });
     } else {
       setNumberProduct(newNumber);
@@ -88,7 +91,8 @@ const ProductDetail = () => {
     if (newNumber === 0) {
       api.open({
         key,
-        message: "Sản phẩm không được xuống 0",
+        type: "error",
+        message: "Số lượng sản phẩm tối thiểu là 1",
       });
     } else {
       setNumberProduct(newNumber);
@@ -108,7 +112,13 @@ const ProductDetail = () => {
       console.log(error);
     }
   };
-
+  function formatDate(dateObject) {
+    const date = new Date(dateObject);
+    const day = String(date.getDate()).padStart(2, "0"); // Ensure two digits, pad with 0 if necessary
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Month is zero-indexed, so add 1
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
   return (
     <div>
       <div
@@ -152,9 +162,12 @@ const ProductDetail = () => {
                   </div>
                 </div>
                 <div className="col-12 col-sm-12 col-md-6">
-                  <h3 className="product-titlle">{product.SP_ten}</h3>
+                  <h3 className="product-titlle">
+                    {product.SP_ten} {product.SP_trongLuong}{" "}
+                    {product.SP_donViTinh}
+                  </h3>
                   {product.discount && product?.SP_gia && (
-                    <del>
+                    <del style={{ color: "#787878" }}>
                       {product.SP_gia.toLocaleString("vi", {
                         style: "currency",
                         currency: "VND",
@@ -203,18 +216,46 @@ const ProductDetail = () => {
                         style={{ color: "#FF4D00" }}
                         className="mt-2"
                       />
-                      <h4 className="product-description-title">
+                      <h4
+                        className="product-description-title"
+                        style={{
+                          fontSize: "20px",
+                          textAlign: "center",
+                          fontFamily: "inherit",
+                          fontWeight: "500",
+                          color: "inherit",
+                        }}
+                      >
                         Mô tả sản phẩm
                       </h4>
                     </div>
 
-                    <div>{product.SP_moTa}</div>
+                    <div
+                      style={{
+                        color: "#666666",
+                        fontSize: "16px",
+                        fontFamily: "sans-serif",
+                      }}
+                    >
+                      {product.SP_moTa}
+                    </div>
                   </div>
                 </div>
               </div>
               <div className="row my-4">
                 <div className="">
-                  <h3 className="box-comment-title">Bình luận</h3>
+                  <h3
+                    className="box-comment-title"
+                    style={{
+                      fontSize: "20px",
+
+                      fontFamily: "inherit",
+                      fontWeight: "500",
+                      color: "inherit",
+                    }}
+                  >
+                    Bình luận
+                  </h3>
                   <div className="box-comment-body d-flex flex-column">
                     <textarea
                       value={commnet}
@@ -242,20 +283,57 @@ const ProductDetail = () => {
                     </div>
                   </div>
                 </div>
-                <div className="display-comments" style={{ marginTop: "20px" }}>
+                <div
+                  className="display-comments mt-4"
+                  style={{
+                    height: "300px",
+                    maxHeight: "300px",
+                    marginTop: "20px",
+                    overflow: "hidden",
+                    overflowY: "scroll",
+                  }}
+                >
+                  <h3
+                    className="box-comment-title"
+                    style={{
+                      fontSize: "20px",
+                      marginBottom: "2rem",
+                      fontFamily: "inherit",
+                      fontWeight: "500",
+                      color: "#337ab7",
+                    }}
+                  >
+                    Tất cả đánh giá
+                  </h3>
                   {comments &&
                     comments.map((comment, index) => {
                       return (
-                        <div className="comment mb-3" key={index}>
-                          <h6 className="m-0">{comment.ND_ten}</h6>
-                          <p style={{ color: "grey" }}>{comment.ND_email}</p>
-                          <p style={{ color: "#333" }}>
-                            {comment.DGSP_noiDung}
-                          </p>
-                          <div className="text-end">
-                            <Rate allowHalf defaultValue={comment.DGSP_soSao} />
+                        <>
+                          <div className="comment mb-4" key={index}>
+                            <div
+                              className="d-flex"
+                              style={{ justifyContent: "space-between" }}
+                            >
+                              <h6 className="m-0">{comment.ND_email}</h6>
+                              <p
+                                style={{ color: "#333", fontSize: "18px" }}
+                                className="p-0 m-0"
+                              >
+                                {formatDate(comment.DGSP_ngayDanhGia)}
+                              </p>
+                            </div>
+
+                            <Rate
+                              allowHalf
+                              defaultValue={comment.DGSP_soSao}
+                              style={{ fontSize: "14px" }}
+                            />
+                            <p style={{ color: "#333", fontSize: "18px" }}>
+                              {comment.DGSP_noiDung}
+                            </p>
                           </div>
-                        </div>
+                          <hr />
+                        </>
                       );
                     })}
                 </div>
@@ -267,7 +345,9 @@ const ProductDetail = () => {
                   style={{
                     fontSize: "20px",
                     textAlign: "center",
-                    textTransform: "uppercase",
+                    fontFamily: "inherit",
+                    fontWeight: "500",
+                    color: "inherit",
                   }}
                   className="p-2"
                 >
@@ -290,12 +370,24 @@ const ProductDetail = () => {
                           style={{ width: "100%" }}
                         />
                         <p
-                          style={{ fontSize: "18px", marginBottom: 0 }}
+                          style={{
+                            fontSize: "18px",
+                            marginBottom: 0,
+                            color: "#666",
+                            fontFamily: "inherit",
+                          }}
                           className=""
                         >
                           {product.SP_ten}
                         </p>
-                        <p className="pb-0">
+                        <p
+                          className="pb-0"
+                          style={{
+                            fontSize: "16px",
+                            color: "#666",
+                            fontFamily: "inherit",
+                          }}
+                        >
                           Trọng lượng: {product.SP_trongLuong}{" "}
                           {product.SP_donViTinh}
                         </p>
@@ -308,7 +400,10 @@ const ProductDetail = () => {
                               })}
                             </del>
                           )}
-                          <p className="card-text product-price">
+                          <p
+                            className="card-text product-price"
+                            style={{ color: "#e64906", fontWeight: "600" }}
+                          >
                             {product.discount
                               ? (
                                   product.price - product.discount.KM_mucGiamGia

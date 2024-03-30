@@ -17,7 +17,7 @@ import FormOrder from "./pages/Account/components/FormOrder";
 import { UserContext } from "./context/userContext";
 import Success from "./pages/success/Success";
 import Cancel from "./pages/cancel/Cancel";
-
+import ProductAll from "./pages/ProductAll/ProductAll";
 function App() {
   const { authLogin } = useContext(UserContext);
   const [flag, setFlag] = useState("false");
@@ -36,6 +36,8 @@ function App() {
             <Route path="address" element={<FormAddress />} exact />
             <Route path="order" element={<FormOrder />} exact />
           </Route>
+          <Route path="/product-all" element={<ProductAll />} exact />
+
           <Route path="/login" element={<Login />} exact />
           <Route path="/success" element={<Success />} exact />
           <Route path="/cancel" element={<Cancel />} exact />

@@ -74,10 +74,13 @@ const HomePage = (props) => {
                             Trọng lượng: {product.SP_trongLuong}{" "}
                             {product.SP_donViTinh}
                           </p>
-                          <div>
+                          <div className="pb-2">
                             {product.discount &&
                               product.discount.KM_mucGiamGia && (
-                                <del>
+                                <del
+                                  style={{ color: "#787878" }}
+                                  className="me-1"
+                                >
                                   {product.price.toLocaleString("vi", {
                                     style: "currency",
                                     currency: "VND",

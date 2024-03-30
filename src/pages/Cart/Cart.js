@@ -75,6 +75,7 @@ const Cart = () => {
       if (response.data) {
         api.open({
           key,
+          type: "success",
           message: "Xóa sản phẩm thành công",
         });
         setProducts(products.filter((item) => item.SPGH_id !== item_id));
@@ -82,6 +83,7 @@ const Cart = () => {
       } else {
         api.open({
           key,
+          type: "success",
           message: "Xóa sản phẩm không thành công",
         });
       }
@@ -117,7 +119,11 @@ const Cart = () => {
         if (
           error.response.data.error === "Product quantity is not sufficient"
         ) {
-          alert("san pham vua qua kho");
+          api.open({
+            key,
+            type: "error",
+            message: "Số lượng sản phẩm vượt quá số lượng trong kho",
+          });
         }
       }
     }
@@ -167,7 +173,11 @@ const Cart = () => {
     };
 
     if (updatedProducts[index].soLuong >= 10) {
-      alert("khong qua 10");
+      api.open({
+        key,
+        type: "error",
+        message: "Số lượng sản phẩm tối đa là 9",
+      });
       return;
     }
     // Set the state with the updated array
@@ -185,7 +195,11 @@ const Cart = () => {
     };
 
     if (updatedProducts[index].soLuong <= 0) {
-      alert("khong duoc am");
+      api.open({
+        key,
+        type: "error",
+        message: "Số lượng sản phẩm tối thiểu là 1",
+      });
       return;
     }
     // Set the state with the updated array
@@ -224,10 +238,15 @@ const Cart = () => {
                       {item.SP_ten}, {item.SP_trongLuong} {item.SP_donViTinh}
                     </td>
 
-                    <td style={{ verticalAlign: "middle" }}>
+                    <td
+                      style={{
+                        verticalAlign: "middle",
+                        alignContent: "space-between",
+                      }}
+                    >
                       <div>
                         {item.discount && (
-                          <del>
+                          <del style={{ color: "#787878" }}>
                             {item.G_thoiGia.toLocaleString("vi", {
                               style: "currency",
                               currency: "VND",
@@ -330,7 +349,10 @@ const Cart = () => {
               <p className="border border-1 border-secondary p-2">
                 Tổng thanh toán
               </p>
-              <p className="border border-1 border-secondary p-2">
+              <p
+                className="border border-1 border-secondary p-2"
+                style={{ color: "#e64906", fontWeight: "600" }}
+              >
                 {sum_price.toLocaleString("vi", {
                   style: "currency",
                   currency: "VND",

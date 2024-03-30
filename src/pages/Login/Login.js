@@ -1,26 +1,26 @@
 import "./Login.scss";
 import { Link } from "react-router-dom";
-import { Button, Form, Input, notification } from "antd";
+import { Button, Form, Input, notification, message } from "antd";
 import axios from "axios";
 
 const key = "updatable";
 
 const Login = () => {
-  const [api, contextHolder] = notification.useNotification();
+  const [messageApi, contextHolder] = message.useMessage();
   const onFinish = async (values) => {
     const response = await axios.post("/api/login", values);
     console.log(response.data);
     if (response.data.success) {
       localStorage.setItem("token", response.data.token);
-      api.open({
-        key,
-        message: "Đăng nhập thành công",
+      messageApi.open({
+        type: "success",
+        content: "Đăng nhập thành công",
       });
       window.location.href = "/";
     } else {
-      api.open({
-        key,
-        message: response.data.message,
+      messageApi.open({
+        type: "error",
+        content: "Đăng nhập thất bại",
       });
     }
   };

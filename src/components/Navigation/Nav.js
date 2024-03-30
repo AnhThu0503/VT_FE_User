@@ -66,6 +66,7 @@ const Nav = ({ flag, setFlag }) => {
           SP_ten: value,
         });
         if (response.data.length > 0) {
+          console.log("abc", response.data);
           setProducts(response.data);
         } else {
           setProducts([]);
@@ -110,6 +111,11 @@ const Nav = ({ flag, setFlag }) => {
                   Danh sách sản phẩm
                 </a>
                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li style={{ borderBottom: "1px solid #67666638" }}>
+                    <Link to="/product-all" className="dropdown-item">
+                      Tất cả sản phẩm
+                    </Link>
+                  </li>
                   {categorys &&
                     categorys.map((category) => (
                       <li
@@ -152,14 +158,14 @@ const Nav = ({ flag, setFlag }) => {
                       id="inputSearch"
                       style={{
                         width: "98%",
-                        height: "25rem",
+                        height: "21rem",
                         borderRadius: "5px",
                         backgroundColor: "#fff",
                         boxShadow: "1px 2px 3px solid #000",
                         position: "absolute",
                         zIndex: "10",
                         top: "2.6rem",
-                        maxHeight: "25rem",
+                        maxHeight: "21rem",
                         // overflow: "auto",
                         overflow: "hidden",
                         overflowY: "scroll",
@@ -178,7 +184,7 @@ const Nav = ({ flag, setFlag }) => {
                           Không tìm thấy sản phẩm !
                         </div>
                       ) : (
-                        <>
+                        <div>
                           {products.length > 0 &&
                             products.map((product, index) => (
                               <Link
@@ -192,61 +198,74 @@ const Nav = ({ flag, setFlag }) => {
                                 }}
                               >
                                 <div
+                                  className="display-product-search p-2"
                                   key={index}
                                   style={{
                                     width: "90%",
                                     display: "flex",
-                                    padding: "0.8rem 1rem",
+
                                     justifyContent: "space-between",
                                     cursor: "pointer",
                                     margin: "10px auto",
                                     borderRadius: "8px",
-                                    backgroundColor: "rgb(238 238 238)",
                                     boxShadow: "1px 2px 3px #ccc",
-                                    paddingTop: "10px",
-                                    paddingBottom: "10px",
                                   }}
                                 >
                                   <div
+                                    className="d-flex"
                                     style={{
                                       width: "100%",
                                     }}
                                   >
-                                    <span
-                                      style={{
-                                        display: "block",
-                                        fontSize: "18px",
-                                        fontWeight: "600",
-                                      }}
-                                    >
-                                      Tên sản phẩm:
-                                    </span>
-                                    <span
-                                      style={{
-                                        fontSize: "20px",
-                                        fontWeight: "600",
-                                      }}
-                                    >
-                                      {product.SP_ten}
-                                    </span>
-                                    <p>
-                                      Mô tả: {product.SP_trongLuong}/{" "}
-                                      {product.SP_donViTinh}
-                                    </p>
+                                    <div>
+                                      <img
+                                        style={{
+                                          height: "4.5rem",
+                                          width: "6rem",
+                                        }}
+                                        src={product.first_image}
+                                        alt={`Product ${index + 1}`}
+                                        className="product-image"
+                                      />
+                                    </div>
+                                    <div className="ms-3">
+                                      <span
+                                        style={{
+                                          fontSize: "18px",
+                                          color: "#787878",
+                                          fontWeight: "bold",
+                                        }}
+                                      >
+                                        {product.SP_ten}
+                                      </span>
+                                      <p
+                                        className="product-price p-0 m-0"
+                                        style={{
+                                          color: "#e64906",
+                                          fontSize: "16px",
+                                        }}
+                                      >
+                                        {product.price.toLocaleString("vi", {
+                                          style: "currency",
+                                          currency: "VND",
+                                        })}
+                                      </p>
+                                      <p
+                                        className="p-0 m-0"
+                                        style={{
+                                          fontSize: "16px",
+                                          color: "#787878",
+                                        }}
+                                      >
+                                        Trọng lượng: {product.SP_trongLuong}{" "}
+                                        {product.SP_donViTinh}
+                                      </p>
+                                    </div>
                                   </div>
-                                  {/* <img
-                          src=""
-                          alt="hinh"
-                          srcset=""
-                          style={{
-                            width: "6rem",
-                            height: "6rem",
-                          }}
-                        /> */}
                                 </div>
                               </Link>
                             ))}
-                        </>
+                        </div>
                       )}
                     </div>
                   )}

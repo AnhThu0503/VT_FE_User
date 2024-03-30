@@ -64,11 +64,13 @@ const FormOeder = () => {
         console.log(response);
         api.open({
           key, // Unique key for each notification
+          type: "success",
           message: "Cập nhật trạng thái thành công",
         });
       } else {
         api.open({
           key, // Unique key for each notification
+          type: "error",
           message: "Cập nhật trạng thái thất bại",
         });
       }
