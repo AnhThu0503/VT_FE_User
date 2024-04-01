@@ -18,6 +18,7 @@ import { UserContext } from "./context/userContext";
 import Success from "./pages/success/Success";
 import Cancel from "./pages/cancel/Cancel";
 import ProductAll from "./pages/ProductAll/ProductAll";
+import ProductDiscountAll from "./pages/ProductAll/ProductDiscountAll";
 function App() {
   const { authLogin } = useContext(UserContext);
   const [flag, setFlag] = useState("false");
@@ -37,13 +38,18 @@ function App() {
             <Route path="order" element={<FormOrder />} exact />
           </Route>
           <Route path="/product-all" element={<ProductAll />} exact />
-
+          <Route
+            path="/product-all-discount"
+            element={<ProductDiscountAll />}
+            exact
+          />
           <Route path="/login" element={<Login />} exact />
           <Route path="/success" element={<Success />} exact />
           <Route path="/cancel" element={<Cancel />} exact />
           <Route path="/register" element={<Register />} exact />
           <Route path="/product/:id" element={<ProductDetail />} exact />
           <Route path="/products/:id" element={<Products />} exact />
+
           <Route path="/" element={<HomePage />} exact />
         </Routes>
         <Footer />

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams, useLocation, Link } from "react-router-dom";
-
 import "./Products.scss";
 import axios from "axios";
 const Products = (props) => {

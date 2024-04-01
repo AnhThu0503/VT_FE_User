@@ -4,21 +4,40 @@ import { ChevronRight } from "react-bootstrap-icons";
 import "./HomePage.scss";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import hot from "../../assets/logo/hot.gif";
+import best from "../../assets/logo/200w.gif";
 
 const HomePage = (props) => {
   const [categorys, setCategorys] = useState([]);
+  const [productsDiscount, setProductsDiscount] = useState([]);
+  const [productsBestseller, setProductsBestseller] = useState([]);
+
   useEffect(() => {
-    console.log("getdata");
     getProductsHome();
+    getProductDiscount();
+    getAllProductBanChay();
   }, []);
+  const getAllProductBanChay = async () => {
+    try {
+      const response = await axios.get("/api/products-bestseller");
+      setProductsBestseller(response.data);
+    } catch (error) {
+      console.error("Error fetching top-selling products:", error);
+    }
+  };
+  const getProductDiscount = async () => {
+    try {
+      const response = await axios.get("/api/products-discount");
+      console.log("----------------response:", response.data);
+      setProductsDiscount(response.data.products);
+    } catch (error) {
+      console.error("Error fetching products discount:", error);
+    }
+  };
   const getProductsHome = async () => {
     try {
-      console.log("getdata");
       const response = await axios.get("/api/products-home");
-      console.log("getdata");
-
       setCategorys(response.data);
-      console.log(response.data);
     } catch (e) {
       console.error(e);
     }
@@ -32,6 +51,164 @@ const HomePage = (props) => {
       {/* <Nav /> */}
       <div className="container homepage-container">
         <Banner />
+        <div>
+          <div className="container section-container p-5 my-3">
+            <div className="section-header d-flex mb-4">
+              <div className="d-flex">
+                <span className="section-title  me-2 mt-1">
+                  Sản phẩm bán chạy
+                </span>
+                <img
+                  className=""
+                  src={best}
+                  alt=""
+                  style={{ width: "50px", height: "50px" }}
+                />
+              </div>
+            </div>
+            <div className="section-body row">
+              {productsBestseller.products &&
+                productsBestseller.products.map((product) => (
+                  <div className="col-sm-3 section-item" key={product.SP_id}>
+                    <Link
+                      to={`/product/${product.SP_id}`}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <div
+                        className="card col-sm-12 d-flex"
+                        style={{ height: "100%" }}
+                      >
+                        <img
+                          src={product.image}
+                          className="card-img-top product-img"
+                          alt="..."
+                        />
+                        <h5 className="card-title product-name">
+                          {product.SP_ten}
+                        </h5>
+                        <p
+                          className=" product-weight "
+                          style={{ color: "#333" }}
+                        >
+                          Trọng lượng: {product.SP_trongLuong}{" "}
+                          {product.SP_donViTinh}
+                        </p>
+                        <div className="pb-2">
+                          {product.discount &&
+                            product.discount.KM_mucGiamGia && (
+                              <del
+                                style={{ color: "#787878" }}
+                                className="me-1"
+                              >
+                                {product.price.toLocaleString("vi", {
+                                  style: "currency",
+                                  currency: "VND",
+                                })}
+                              </del>
+                            )}
+                          <span className="card-text product-price">
+                            {product.discount
+                              ? (
+                                  product.price - product.discount.KM_mucGiamGia
+                                ).toLocaleString("vi", {
+                                  style: "currency",
+                                  currency: "VND",
+                                })
+                              : product.price.toLocaleString("vi", {
+                                  style: "currency",
+                                  currency: "VND",
+                                })}
+                          </span>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                ))}
+            </div>
+            <div />
+          </div>
+        </div>
+        <div>
+          <div className="container section-container p-5 my-3">
+            <div className="section-header d-flex mb-4">
+              <div className="d-flex">
+                <span className="section-title mt-2 me-2">
+                  Sản phẩm khuyến mãi
+                </span>
+                <img
+                  className=""
+                  src={hot}
+                  alt=""
+                  style={{ width: "50px", height: "50px" }}
+                />
+              </div>
+
+              <Link className="section-btn" to={`/product-all-discount`}>
+                Tất cả sản phẩm <ChevronRight />
+              </Link>
+            </div>
+            <div className="section-body row">
+              {productsDiscount &&
+                productsDiscount.map((product) => (
+                  <div className="col-sm-3 section-item" key={product.SP_id}>
+                    <Link
+                      to={`/product/${product.SP_id}`}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <div
+                        className="card col-sm-12 d-flex"
+                        style={{ height: "100%" }}
+                      >
+                        <img
+                          src={product.image}
+                          className="card-img-top product-img"
+                          alt="..."
+                        />
+                        <h5 className="card-title product-name">
+                          {product.SP_ten}
+                        </h5>
+                        <p
+                          className=" product-weight "
+                          style={{ color: "#333" }}
+                        >
+                          Trọng lượng: {product.SP_trongLuong}{" "}
+                          {product.SP_donViTinh}
+                        </p>
+                        <div className="pb-2">
+                          {product.discount &&
+                            product.discount.KM_mucGiamGia && (
+                              <del
+                                style={{ color: "#787878" }}
+                                className="me-1"
+                              >
+                                {product.price.toLocaleString("vi", {
+                                  style: "currency",
+                                  currency: "VND",
+                                })}
+                              </del>
+                            )}
+                          <span className="card-text product-price">
+                            {product.discount
+                              ? (
+                                  product.price - product.discount.KM_mucGiamGia
+                                ).toLocaleString("vi", {
+                                  style: "currency",
+                                  currency: "VND",
+                                })
+                              : product.price.toLocaleString("vi", {
+                                  style: "currency",
+                                  currency: "VND",
+                                })}
+                          </span>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                ))}
+            </div>
+            <div />
+          </div>
+        </div>
         <div>
           {categorys &&
             categorys.map((category) => (

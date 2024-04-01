@@ -241,19 +241,26 @@ const Cart = () => {
                     <td
                       style={{
                         verticalAlign: "middle",
-                        alignContent: "space-between",
                       }}
                     >
-                      <div>
+                      <div style={{ verticalAlign: "middle" }}>
                         {item.discount && (
-                          <del style={{ color: "#787878" }}>
+                          <del
+                            style={{
+                              color: "#787878",
+                              verticalAlign: "middle",
+                            }}
+                          >
                             {item.G_thoiGia.toLocaleString("vi", {
                               style: "currency",
                               currency: "VND",
                             })}
                           </del>
                         )}
-                        <p className="card-text item-price">
+                        <p
+                          className="card-text item-price"
+                          style={{ verticalAlign: "middle" }}
+                        >
                           {item.discount
                             ? (
                                 item.G_thoiGia - item.discount.KM_mucGiamGia

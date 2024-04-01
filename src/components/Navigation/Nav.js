@@ -66,7 +66,7 @@ const Nav = ({ flag, setFlag }) => {
           SP_ten: value,
         });
         if (response.data.length > 0) {
-          console.log("abc", response.data);
+          console.log("abc>>>>>>>>>>>", response.data);
           setProducts(response.data);
         } else {
           setProducts([]);
@@ -238,18 +238,45 @@ const Nav = ({ flag, setFlag }) => {
                                       >
                                         {product.SP_ten}
                                       </span>
-                                      <p
-                                        className="product-price p-0 m-0"
-                                        style={{
-                                          color: "#e64906",
-                                          fontSize: "16px",
-                                        }}
-                                      >
-                                        {product.price.toLocaleString("vi", {
-                                          style: "currency",
-                                          currency: "VND",
-                                        })}
-                                      </p>
+                                      <div className="pb-2">
+                                        {product && product.km_mucGiamGia && (
+                                          <del
+                                            style={{ color: "#787878" }}
+                                            className="me-1"
+                                          >
+                                            {product.price.toLocaleString(
+                                              "vi",
+                                              {
+                                                style: "currency",
+                                                currency: "VND",
+                                              }
+                                            )}
+                                          </del>
+                                        )}
+                                        <p
+                                          className="p-0 m-0 product-price"
+                                          style={{
+                                            color: "#e64906",
+                                            fontSize: "16px",
+                                          }}
+                                        >
+                                          {product.km_mucGiamGia
+                                            ? (
+                                                product.price -
+                                                product.km_mucGiamGia
+                                              ).toLocaleString("vi", {
+                                                style: "currency",
+                                                currency: "VND",
+                                              })
+                                            : product.price.toLocaleString(
+                                                "vi",
+                                                {
+                                                  style: "currency",
+                                                  currency: "VND",
+                                                }
+                                              )}
+                                        </p>
+                                      </div>
                                       <p
                                         className="p-0 m-0"
                                         style={{
