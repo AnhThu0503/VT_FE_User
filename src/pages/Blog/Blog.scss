@@ -1,6 +1,10 @@
+.blog-background {
+    background-color: #f1f1f1;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 .blog-container {
-    background-color: #ffffff;
-
 
     .box-blog {
         .card {
@@ -14,16 +18,10 @@
 
 
                 .blog-img {
-                    // height: 100%;
                     object-fit: cover;
                     opacity: 1;
                     -webkit-transition: .3s ease-in-out;
                     transition: .3s ease-in-out;
-
-                    // img {
-                    //     height: 100%;
-                    // }
-
                     &:hover {
                         opacity: .6;
                         cursor: pointer;
@@ -38,11 +36,46 @@
                 }
             }
         }
-
-
-
-
     }
+    .recent-blog{
+        .blog-img {
+            object-fit: cover;
+            opacity: 1;
+            -webkit-transition: .3s ease-in-out;
+            transition: .3s ease-in-out;
+            &:hover {
+                opacity: .6;
+                cursor: pointer;
+            }
+        }
+        .ant-tree{
+            .ant-tree-treenode {               
+                padding: 5px 0 5px 0;
+                border-bottom: 1px solid rgba(178, 178, 178, 0.574);
+            }
+            .ant-tree-list-holder-inner {
+                align-items: none !important;
+                flex-direction: none !important;
+                display:  block !important;
+            }
+            
+                .ant-tree-treenode-switcher-open{
+                    background-color: #ff4d00;
+                    padding: 10px;
+                    color: #fff;
+                    text-transform: uppercase;
 
-
+                }
+                .ant-tree-treenode-switcher-close {
+                    background-color: #ff4d00;
+                    padding: 10px;
+                    color: #fff;
+                    text-transform: uppercase;
+                }
+                .ant-tree-title{
+                }
+          
+        }
+    }
+}
 }

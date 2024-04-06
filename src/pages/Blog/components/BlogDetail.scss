@@ -1,0 +1,43 @@
+.blog-background{
+    background-color: #f1f1f1;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    .blog-container{
+        .item-left{
+            background-color: #ffffff;
+            .btn-comment {
+                background-color: #41695b;
+                color: #ffffff;
+
+                &:hover {
+                    background-color: #046644;
+                    color: #ffffff;
+                }
+            }
+            .reply{
+                color: #337ab7;
+                font-weight: 500;
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+
+        }
+        .item-right {
+            
+            .item-right_child {
+                background-color: #ffffff;
+                
+            }
+
+            p {
+                margin-bottom: 0 !important;
+                color: #333;
+            }
+
+        }
+    }
+
+}

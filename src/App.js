@@ -19,6 +19,7 @@ import Success from "./pages/success/Success";
 import Cancel from "./pages/cancel/Cancel";
 import ProductAll from "./pages/ProductAll/ProductAll";
 import ProductDiscountAll from "./pages/ProductAll/ProductDiscountAll";
+import BlogDetail from "./pages/Blog/components/BlogDetail";
 function App() {
   const { authLogin } = useContext(UserContext);
   const [flag, setFlag] = useState("false");
@@ -30,7 +31,9 @@ function App() {
       <div className="app-container" style={{ backgroundColor: "#f1f1f1" }}>
         <Nav flag={flag} setFlag={setFlag} />
         <Routes>
-          <Route path="/blog" element={<Blog />} exact />
+          <Route path="/blogs" element={<Blog />} exact />
+          <Route path="/blogs/blog/:id" element={<BlogDetail />} exact />
+
           <Route path="/cart" element={<Cart />} exact />
           <Route path="/account" element={<Account />} exact>
             <Route path="" element={<FormInfoCustomer />} exact />
@@ -43,13 +46,13 @@ function App() {
             element={<ProductDiscountAll />}
             exact
           />
+
           <Route path="/login" element={<Login />} exact />
           <Route path="/success" element={<Success />} exact />
           <Route path="/cancel" element={<Cancel />} exact />
           <Route path="/register" element={<Register />} exact />
           <Route path="/product/:id" element={<ProductDetail />} exact />
           <Route path="/products/:id" element={<Products />} exact />
-
           <Route path="/" element={<HomePage />} exact />
         </Routes>
         <Footer />

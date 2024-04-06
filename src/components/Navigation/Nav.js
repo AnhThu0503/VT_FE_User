@@ -78,8 +78,8 @@ const Nav = ({ flag, setFlag }) => {
   };
 
   return (
-    <div>
-      <nav className=" navbar navbar-expand-lg navbar-light fixed-top py-2">
+    <div className="">
+      <nav className=" navbar navbar-expand-lg navbar-light fixed-top ">
         <div className=" container">
           <Link className="navbar-brand" to="/">
             <img src={logo3} style={{ width: "4.5rem", height: "3rem" }}></img>
@@ -233,7 +233,6 @@ const Nav = ({ flag, setFlag }) => {
                                         style={{
                                           fontSize: "18px",
                                           color: "#787878",
-                                          fontWeight: "bold",
                                         }}
                                       >
                                         {product.SP_ten}
@@ -300,7 +299,7 @@ const Nav = ({ flag, setFlag }) => {
               </li>
 
               <li className="nav-item ">
-                <Link className="nav-link btn mt-1" to="/blog">
+                <Link className="nav-link btn mt-1" to="/blogs">
                   Blog
                 </Link>
               </li>
