@@ -6,6 +6,7 @@ import { UserContext } from "../../../context/userContext";
 import { Button, Input } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { BsFillSendFill } from "react-icons/bs";
+import { BsArrowReturnRight } from "react-icons/bs";
 
 const BlogDetail = () => {
   const location = useLocation();
@@ -21,7 +22,7 @@ const BlogDetail = () => {
     useState(null);
 
   const [traloiBL, setTraLoiBL] = useState();
-
+  const [dsReply, setDSReply] = useState([]);
   const handleReplyButtonClick = (commentId) => {
     setReplyInputVisibleForComment(commentId);
   };
@@ -29,10 +30,20 @@ const BlogDetail = () => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get("/api/blog/comment");
+        const response = await axios.get("/api/blog/comment", {
+          params: { B_id: id },
+        });
         if (response.status === 200) {
-          setDsBinhLuan(response.data.comments);
-          console.log("dsBL>>>", response.data.comments);
+          setDsBinhLuan(response.data);
+          // Check if response data and its properties exist before accessing them
+          if (
+            response.data &&
+            response.data.comments &&
+            response.data.comments.replies
+          ) {
+            setDSReply(response.data.comments.replies);
+            console.log("dsTLBLB>>>", response.data.comments.replies);
+          }
         }
       } catch (error) {
         console.log(error);
@@ -195,20 +206,21 @@ const BlogDetail = () => {
                   {dsBinhLuan &&
                     dsBinhLuan.map((comment) => {
                       return (
-                        <>
-                          <div className="comment mb-4" key={comment.BLB_id}>
-                            <div
-                              className="d-flex"
-                              style={{ justifyContent: "space-between" }}
+                        <div className="comment mb-4" key={comment.BLB_id}>
+                          <div
+                            className="py-2 px-4"
+                            style={{
+                              backgroundColor: "#f0f2f5",
+                              borderRadius: "10px",
+                            }}
+                          >
+                            <h6 className="m-0 p-0">{comment.ND_email}</h6>
+                            <p
+                              style={{ color: "#ccc", fontSize: "15px" }}
+                              className="p-0 m-0"
                             >
-                              <h6 className="m-0 p-0">{comment.ND_email}</h6>
-                              <p
-                                style={{ color: "#333", fontSize: "18px" }}
-                                className="p-0 m-0"
-                              >
-                                {formatDate(comment.BLB_ngayBL)}
-                              </p>
-                            </div>
+                              {formatDate(comment.BLB_ngayBL)}
+                            </p>
 
                             <p
                               className="p-0 m-0"
@@ -216,40 +228,79 @@ const BlogDetail = () => {
                             >
                               {comment.BLB_noiDung}
                             </p>
-                            <p
-                              className="p-0 m-0 reply"
-                              onClick={() =>
-                                handleReplyButtonClick(comment.BLB_id)
-                              }
-                            >
-                              Trả lời
-                            </p>
-                            {replyInputVisibleForComment === comment.BLB_id && (
-                              <div className="mt-3 ms-4">
-                                <TextArea
-                                  type="text"
-                                  placeholder="Your reply..."
-                                  value={traloiBL}
-                                  size="large"
-                                  style={{ width: "250px" }}
-                                  onChange={(e) => {
-                                    setTraLoiBL(e.target.value);
-                                  }}
-                                />
-
-                                <Button
-                                  className="ms-2"
-                                  onClick={() => {
-                                    handleReplyComment(comment.BLB_id);
-                                  }}
-                                >
-                                  Send
-                                </Button>
-                              </div>
-                            )}
                           </div>
-                          <hr />
-                        </>
+
+                          <p
+                            className="p-0 m-0 ps-4 reply"
+                            onClick={() =>
+                              handleReplyButtonClick(comment.BLB_id)
+                            }
+                          >
+                            Trả lời
+                          </p>
+                          {replyInputVisibleForComment === comment.BLB_id && (
+                            <div className="mt-3 ms-4">
+                              <TextArea
+                                type="text"
+                                placeholder="Your reply..."
+                                value={traloiBL}
+                                size="large"
+                                style={{ width: "250px" }}
+                                onChange={(e) => {
+                                  setTraLoiBL(e.target.value);
+                                }}
+                              />
+                              <Button
+                                className="ms-2"
+                                onClick={() => {
+                                  handleReplyComment(comment.BLB_id);
+                                }}
+                              >
+                                Send
+                              </Button>
+                            </div>
+                          )}
+                          {/* Display replies */}
+                          {comment.replies && (
+                            <div className=" mt-3 ms-4 ps-2">
+                              {comment.replies.map((reply) => (
+                                <div className="d-flex">
+                                  <BsArrowReturnRight className="mt-2 me-1" />
+                                  <div
+                                    className="mb-2 px-4 py-2"
+                                    key={reply.TLBLB_id}
+                                    style={{
+                                      backgroundColor: "#f0f2f5",
+                                      borderRadius: "10px",
+                                    }}
+                                  >
+                                    <h6 className="m-0 p-0">
+                                      {reply.ND_email}
+                                    </h6>
+                                    <p
+                                      style={{
+                                        color: "#ccc",
+                                        fontSize: "15px",
+                                      }}
+                                      className="p-0 m-0 "
+                                    >
+                                      {formatDate(reply.TLBLB_ngayBL)}
+                                    </p>
+                                    <p
+                                      className="p-0 m-0"
+                                      style={{
+                                        color: "#333",
+                                        fontSize: "18px",
+                                      }}
+                                    >
+                                      {reply.TLBLB_noiDung}
+                                    </p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
                       );
                     })}
                 </div>
