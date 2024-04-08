@@ -4,10 +4,8 @@ import { Link } from "react-router-dom";
 import logo3 from "../../assets/logo/logo3.png";
 import { Cart3, PersonFill } from "react-bootstrap-icons";
 import { MdOutlineLogout } from "react-icons/md";
-
 import axios from "axios";
 import { UserContext } from "../../context/userContext";
-
 const Nav = ({ flag, setFlag }) => {
   const { user } = useContext(UserContext);
   const token = localStorage.getItem("token");

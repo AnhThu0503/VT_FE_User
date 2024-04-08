@@ -148,7 +148,7 @@ const Blog = () => {
                                     className="p-0 m-0"
                                     style={{ color: "#ccc" }}
                                   >
-                                    0 Bình luận
+                                    {item.comment_count}
                                   </p>
                                 </div>
                               </div>
@@ -234,7 +234,7 @@ const Blog = () => {
                                 className="p-0 m-0"
                                 style={{ fontSize: "16px", color: "#ccc" }}
                               >
-                                0 Bình luận
+                                {blog.comment_count}
                               </p>
                             </div>
                           </Link>

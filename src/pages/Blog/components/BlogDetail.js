@@ -3,12 +3,13 @@ import axios from "axios";
 import { useState, useEffect, useContext } from "react";
 import { useParams, Link, useLocation } from "react-router-dom";
 import { UserContext } from "../../../context/userContext";
-import { Button, Input } from "antd";
+import { Button, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { BsFillSendFill } from "react-icons/bs";
-import { BsArrowReturnRight } from "react-icons/bs";
+import { Avatar } from "antd";
+const key = "updatable";
 
 const BlogDetail = () => {
+  const [messageApi, contextHolder] = message.useMessage();
   const location = useLocation();
   const { user } = useContext(UserContext);
   const [blog, setBlog] = useState();
@@ -20,10 +21,20 @@ const BlogDetail = () => {
   const [dsBinhLuan, setDsBinhLuan] = useState([]);
   const [replyInputVisibleForComment, setReplyInputVisibleForComment] =
     useState(null);
-
   const [traloiBL, setTraLoiBL] = useState();
   const [dsReply, setDSReply] = useState([]);
-  const handleReplyButtonClick = (commentId) => {
+  const [falg, setFalg] = useState(false);
+
+  const getFirstLetterOfLastName = (fullName) => {
+    if (!fullName) return ""; // Trả về chuỗi rỗng nếu không có họ tên
+    const nameParts = fullName.split(" "); // Tách chuỗi thành mảng các từ
+    const lastName = nameParts[nameParts.length - 1]; // Lấy từ cuối cùng trong mảng
+    return lastName.charAt(0).toUpperCase(); // Trả về ký tự đầu tiên của từ cuối cùng
+  };
+
+  const handleReplyButtonClick = (commentId, ND_email) => {
+    console.log("commentId", commentId);
+    setTraLoiBL(ND_email + "   ");
     setReplyInputVisibleForComment(commentId);
   };
 
@@ -49,7 +60,7 @@ const BlogDetail = () => {
         console.log(error);
       }
     })();
-  }, []);
+  }, [falg]);
 
   useEffect(() => {
     getBlogDetail();
@@ -77,44 +88,75 @@ const BlogDetail = () => {
 
   const handleSubmitComment = async () => {
     try {
-      if (!user || !binhluan) {
+      if (!user.ND_id) {
+        messageApi.open({
+          type: "warning",
+          content: "Vui lòng đăng nhập để tiến hành bình luận!",
+        });
+        if (!binhluan) {
+          messageApi.open({
+            type: "warning",
+            content: "Vui lòng nhập nôi dung bình luận!",
+          });
+        }
         return;
       }
-
       const data = {
         ND_id: user.ND_id,
         B_id: id,
         BLB_noiDung: binhluan,
         BLB_ngayBL: getCurrentDate(),
+        BLB_reply: 0,
       };
       const response = await axios.post("/api/blog/comment", data);
 
       if (response.status === 200) {
-        alert("them thanh cong");
+        setFalg(!falg);
+        messageApi.open({
+          type: "success",
+          content: "Bình luận thành công!",
+        });
         setBinhLuan("");
+        setReplyInputVisibleForComment(0);
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleReplyComment = async (id) => {
+  const handleReplyComment = async (BLB_id) => {
     try {
-      if (!user || !traloiBL) {
+      if (!user.ND_id) {
+        messageApi.open({
+          type: "warning",
+          content: "Vui lòng đăng nhập để tiến hành bình luận!",
+        });
+        if (!traloiBL) {
+          messageApi.open({
+            type: "warning",
+            content: "Vui lòng nhập nôi dung bình luận!",
+          });
+        }
         return;
       }
-      console.log(id);
       const data = {
         ND_id: user.ND_id,
-        BLB_id: id,
+        B_id: id,
+        BLB_id: BLB_id,
         BLB_noiDung: traloiBL,
         BLB_ngayBL: getCurrentDate(),
       };
       const response = await axios.post("/api/blog/comment/reply", data);
 
       if (response.status === 200) {
-        alert("them thanh cong");
+        setFalg(!falg);
+
+        messageApi.open({
+          type: "success",
+          content: "Trả lời luận thành công!",
+        });
         setTraLoiBL("");
+        setReplyInputVisibleForComment(0);
       }
     } catch (error) {
       console.log(error);
@@ -128,6 +170,13 @@ const BlogDetail = () => {
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
   }
+  const avatarColors = ["#f56a00", "#7265e6", "#ffbf00", "#00a2ae", "#007bff"];
+
+  // Hàm để chọn một màu nền từ mảng avatarColors dựa trên ND_ten
+  const getAvatarColor = (ND_id) => {
+    const index = Math.abs(ND_id % avatarColors.length);
+    return avatarColors[index];
+  };
 
   return (
     <div>
@@ -184,8 +233,8 @@ const BlogDetail = () => {
                 <div
                   className="display-comments mt-4"
                   style={{
-                    height: "300px",
-                    maxHeight: "300px",
+                    height: "400px",
+                    maxHeight: "400px",
                     marginTop: "20px",
                     overflow: "hidden",
                     overflowY: "scroll",
@@ -207,39 +256,52 @@ const BlogDetail = () => {
                     dsBinhLuan.map((comment) => {
                       return (
                         <div className="comment mb-4" key={comment.BLB_id}>
-                          <div
-                            className="py-2 px-4"
-                            style={{
-                              backgroundColor: "#f0f2f5",
-                              borderRadius: "10px",
-                            }}
-                          >
-                            <h6 className="m-0 p-0">{comment.ND_email}</h6>
-                            <p
-                              style={{ color: "#ccc", fontSize: "15px" }}
-                              className="p-0 m-0"
+                          <div className="d-flex">
+                            <Avatar
+                              className="mt-4 me-2"
+                              style={{
+                                backgroundColor: getAvatarColor(comment.ND_id),
+                              }}
                             >
-                              {formatDate(comment.BLB_ngayBL)}
-                            </p>
+                              {getFirstLetterOfLastName(comment.ND_ten)}
+                            </Avatar>
+                            <div
+                              className="py-2 px-4"
+                              style={{
+                                backgroundColor: "#f0f2f5",
+                                borderRadius: "10px",
+                              }}
+                            >
+                              <h6 className="m-0 p-0">{comment.ND_email}</h6>
+                              <p
+                                style={{ color: "#ccc", fontSize: "15px" }}
+                                className="p-0 m-0"
+                              >
+                                {formatDate(comment.BLB_ngayBL)}
+                              </p>
 
-                            <p
-                              className="p-0 m-0"
-                              style={{ color: "#333", fontSize: "18px" }}
-                            >
-                              {comment.BLB_noiDung}
-                            </p>
+                              <p
+                                className="p-0 m-0"
+                                style={{ color: "#333", fontSize: "18px" }}
+                              >
+                                {comment.BLB_noiDung}
+                              </p>
+                            </div>
                           </div>
 
                           <p
-                            className="p-0 m-0 ps-4 reply"
+                            className="p-0 m-0 ms-4 ps-3 reply"
                             onClick={() =>
-                              handleReplyButtonClick(comment.BLB_id)
+                              handleReplyButtonClick(
+                                comment.BLB_id,
+                                comment.ND_email
+                              )
                             }
                           >
                             Trả lời
                           </p>
                           {replyInputVisibleForComment === comment.BLB_id && (
-                            <div className="mt-3 ms-4">
+                            <div className=" ms-4 ps-3">
                               <TextArea
                                 type="text"
                                 placeholder="Your reply..."
@@ -256,46 +318,91 @@ const BlogDetail = () => {
                                   handleReplyComment(comment.BLB_id);
                                 }}
                               >
-                                Send
+                                Gửi
                               </Button>
                             </div>
                           )}
                           {/* Display replies */}
                           {comment.replies && (
-                            <div className=" mt-3 ms-4 ps-2">
+                            <div className=" mt-3 ms-4 ps-4">
                               {comment.replies.map((reply) => (
-                                <div className="d-flex">
-                                  <BsArrowReturnRight className="mt-2 me-1" />
-                                  <div
-                                    className="mb-2 px-4 py-2"
-                                    key={reply.TLBLB_id}
-                                    style={{
-                                      backgroundColor: "#f0f2f5",
-                                      borderRadius: "10px",
-                                    }}
-                                  >
-                                    <h6 className="m-0 p-0">
-                                      {reply.ND_email}
-                                    </h6>
-                                    <p
+                                <div key={reply.BLB_id}>
+                                  <div className="d-flex">
+                                    <Avatar
+                                      className="mt-4 me-2"
                                       style={{
-                                        color: "#ccc",
-                                        fontSize: "15px",
-                                      }}
-                                      className="p-0 m-0 "
-                                    >
-                                      {formatDate(reply.TLBLB_ngayBL)}
-                                    </p>
-                                    <p
-                                      className="p-0 m-0"
-                                      style={{
-                                        color: "#333",
-                                        fontSize: "18px",
+                                        backgroundColor: getAvatarColor(
+                                          reply.ND_id
+                                        ),
                                       }}
                                     >
-                                      {reply.TLBLB_noiDung}
-                                    </p>
+                                      {getFirstLetterOfLastName(reply.ND_ten)}
+                                    </Avatar>
+                                    <div
+                                      className="mb-2 px-4 py-2"
+                                      style={{
+                                        backgroundColor: "#f0f2f5",
+                                        borderRadius: "10px",
+                                      }}
+                                    >
+                                      <h6 className="m-0 p-0">
+                                        {reply.ND_email}
+                                      </h6>
+                                      <p
+                                        style={{
+                                          color: "#ccc",
+                                          fontSize: "15px",
+                                        }}
+                                        className="p-0 m-0 "
+                                      >
+                                        {formatDate(reply.BLB_ngayBL)}
+                                      </p>
+                                      <p
+                                        className="p-0 m-0"
+                                        style={{
+                                          color: "#333",
+                                          fontSize: "18px",
+                                        }}
+                                      >
+                                        {reply.BLB_noiDung}
+                                      </p>
+                                    </div>
                                   </div>
+                                  <p
+                                    className="p-0 m-0 ms-4 ps-3 reply"
+                                    onClick={() =>
+                                      handleReplyButtonClick(
+                                        reply.BLB_id,
+                                        reply.ND_email
+                                      )
+                                    }
+                                  >
+                                    Trả lời
+                                  </p>
+                                  {replyInputVisibleForComment ===
+                                    reply.BLB_id && (
+                                    <div className="mt-3 ms-4 ps-3">
+                                      <TextArea
+                                        type="text"
+                                        placeholder="Your reply..."
+                                        value={traloiBL}
+                                        className="mb-4"
+                                        size="large"
+                                        style={{ width: "250px" }}
+                                        onChange={(e) => {
+                                          setTraLoiBL(e.target.value);
+                                        }}
+                                      />
+                                      <Button
+                                        className="ms-2 mb-4"
+                                        onClick={() => {
+                                          handleReplyComment(comment.BLB_id);
+                                        }}
+                                      >
+                                        Gửi
+                                      </Button>
+                                    </div>
+                                  )}
                                 </div>
                               ))}
                             </div>
@@ -392,6 +499,7 @@ const BlogDetail = () => {
           </div>
         </div>
       </div>
+      {contextHolder}
     </div>
   );
 };

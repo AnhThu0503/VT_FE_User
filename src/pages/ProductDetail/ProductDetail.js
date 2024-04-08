@@ -3,9 +3,8 @@ import "./ProductDetail.scss";
 import { CaretRightFill } from "react-bootstrap-icons";
 import { useParams, Link, useLocation } from "react-router-dom";
 import axios from "axios";
-import { notification } from "antd";
 import { UserContext } from "../../context/userContext";
-import { Rate } from "antd";
+import { Rate, Avatar, notification } from "antd";
 const ProductDetail = () => {
   const location = useLocation();
   const { user } = useContext(UserContext);
@@ -17,19 +16,25 @@ const ProductDetail = () => {
   const [comments, setComments] = useState([]);
   const key = "updatable";
   const [api, contextHolder] = notification.useNotification();
-  const [numberStar, setNumberstar] = useState([]);
+  const [numberStar, setNumberstar] = useState(0);
+  const [falg, setFalg] = useState(false);
+  const [avegareStar, setAvegareStar] = useState(0);
   useEffect(() => {
     getProduct();
-    getComments();
   }, [location]);
+  useEffect(() => {
+    getComments();
+  }, [falg]);
 
   const getComments = async () => {
     try {
       const response = await axios.get("/api/comments", {
         params: { SP_id: id },
       });
-      console.log(response.data);
-      if (response.data) setComments(response.data);
+      if (response.data) {
+        setComments(response.data.comments);
+        setAvegareStar(response.data.averageRating);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -101,17 +106,49 @@ const ProductDetail = () => {
 
   const handeCommnet = async () => {
     try {
+      if (!user.ND_id) {
+        api.open({
+          key,
+          type: "warning",
+          message: "Vui lòng đăng nhập để tiến hành đánh giá!",
+        });
+        if (numberStar === 0 || !commnet.trim()) {
+          api.open({
+            key,
+            type: "warning",
+            message: "Vui lòng nhập nội dung đánh giá và chọn số sao!",
+          });
+        }
+        return;
+      }
+
       const response = await axios.post("/api/users/comment", {
         SP_id: id,
         ND_id: user.ND_id,
         sosao: numberStar,
         noidung: commnet,
       });
-      console.log(response);
+
+      if (response.status === 200) {
+        api.open({
+          key,
+          type: "success",
+          message: "Thêm đánh giá thành công!",
+        });
+        setFalg(!falg);
+        setComment("");
+        setNumberstar(0);
+      }
     } catch (error) {
       console.log(error);
+      api.open({
+        key,
+        type: "error",
+        message: "Thêm đánh giá thất bại!",
+      });
     }
   };
+
   function formatDate(dateObject) {
     const date = new Date(dateObject);
     const day = String(date.getDate()).padStart(2, "0"); // Ensure two digits, pad with 0 if necessary
@@ -119,6 +156,19 @@ const ProductDetail = () => {
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
   }
+  const avatarColors = ["#f56a00", "#7265e6", "#ffbf00", "#00a2ae", "#007bff"];
+
+  // Hàm để chọn một màu nền từ mảng avatarColors dựa trên ND_ten
+  const getAvatarColor = (ND_id) => {
+    const index = Math.abs(ND_id % avatarColors.length);
+    return avatarColors[index];
+  };
+  const getFirstLetterOfLastName = (fullName) => {
+    if (!fullName) return ""; // Trả về chuỗi rỗng nếu không có họ tên
+    const nameParts = fullName.split(" "); // Tách chuỗi thành mảng các từ
+    const lastName = nameParts[nameParts.length - 1]; // Lấy từ cuối cùng trong mảng
+    return lastName.charAt(0).toUpperCase(); // Trả về ký tự đầu tiên của từ cuối cùng
+  };
   return (
     <div>
       <div
@@ -162,10 +212,22 @@ const ProductDetail = () => {
                   </div>
                 </div>
                 <div className="col-12 col-sm-12 col-md-6">
-                  <h3 className="product-titlle">
+                  <h3 className="product-titlle p-0 m-0">
                     {product.SP_ten} {product.SP_trongLuong}{" "}
                     {product.SP_donViTinh}
                   </h3>
+                  <div className="d-flex">
+                    <p className="m-0 p-0 me-1">
+                      {avegareStar !== undefined ? avegareStar.toFixed(1) : ""}
+                    </p>
+                    <Rate
+                      className="mt-1"
+                      style={{ fontSize: "16px" }}
+                      allowHalf
+                      value={avegareStar} // Use 'value' instead of 'defaultValue' to make it controlled
+                    />
+                  </div>
+
                   {product.discount && product?.SP_gia && (
                     <del style={{ color: "#787878" }}>
                       {product.SP_gia.toLocaleString("vi", {
@@ -254,7 +316,7 @@ const ProductDetail = () => {
                       color: "inherit",
                     }}
                   >
-                    Bình luận
+                    Đánh giá sản phẩm
                   </h3>
                   <div className="box-comment-body d-flex flex-column">
                     <textarea
@@ -265,20 +327,22 @@ const ProductDetail = () => {
                       placeholder="Mời bạn để lại bình luận"
                       className="d-block p-3 "
                     ></textarea>
+
                     <Rate
                       className="mt-3"
                       allowHalf
-                      defaultValue={numberStar}
-                      onChange={(e) => {
-                        setNumberstar(e);
+                      value={numberStar} // Use 'value' instead of 'defaultValue' to make it controlled
+                      onChange={(newValue) => {
+                        setNumberstar(newValue); // Update 'numberStar' based on the new value
                       }}
                     />
+
                     <div className="text-end">
                       <button
                         className="btn btn-comment mt-3"
                         onClick={handeCommnet}
                       >
-                        Tải bình luận
+                        Tải lên
                       </button>
                     </div>
                   </div>
@@ -306,34 +370,42 @@ const ProductDetail = () => {
                     Tất cả đánh giá
                   </h3>
                   {comments &&
-                    comments.map((comment, index) => {
+                    comments.map((comment) => {
                       return (
-                        <>
-                          <div className="comment mb-4" key={index}>
-                            <div
-                              className="d-flex"
-                              style={{ justifyContent: "space-between" }}
-                            >
-                              <h6 className="m-0">{comment.ND_email}</h6>
-                              <p
-                                style={{ color: "#333", fontSize: "18px" }}
-                                className="p-0 m-0"
+                        <div key={comment.DGSP_id}>
+                          <div className="comment mb-4">
+                            <div className="d-flex">
+                              <Avatar
+                                className="me-2 mt-1"
+                                style={{
+                                  backgroundColor: getAvatarColor(
+                                    comment.ND_id
+                                  ),
+                                }}
                               >
-                                {formatDate(comment.DGSP_ngayDanhGia)}
-                              </p>
+                                {getFirstLetterOfLastName(comment.ND_ten)}
+                              </Avatar>
+                              <div>
+                                <h6 className="m-0 mt-2">{comment.ND_email}</h6>
+                                <Rate
+                                  allowHalf
+                                  defaultValue={comment.DGSP_soSao}
+                                  style={{ fontSize: "14px" }}
+                                />
+                                <p style={{ color: "#333", fontSize: "18px" }}>
+                                  {comment.DGSP_noiDung}
+                                </p>
+                                <p
+                                  style={{ color: "#ccc", fontSize: "15px" }}
+                                  className="p-0 m-0"
+                                >
+                                  {formatDate(comment.DGSP_ngayDanhGia)}
+                                </p>
+                              </div>
                             </div>
-
-                            <Rate
-                              allowHalf
-                              defaultValue={comment.DGSP_soSao}
-                              style={{ fontSize: "14px" }}
-                            />
-                            <p style={{ color: "#333", fontSize: "18px" }}>
-                              {comment.DGSP_noiDung}
-                            </p>
                           </div>
                           <hr />
-                        </>
+                        </div>
                       );
                     })}
                 </div>

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import hot from "../../assets/logo/hot.gif";
 import best from "../../assets/logo/200w.gif";
-
+import { Rate } from "antd";
 const HomePage = (props) => {
   const [categorys, setCategorys] = useState([]);
   const [productsDiscount, setProductsDiscount] = useState([]);
