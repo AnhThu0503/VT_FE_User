@@ -94,15 +94,31 @@ const Cart = () => {
 
   const createOrder = async () => {
     if (payment === "online") {
-      const online = await makePayment();
-      const onlinePayment = {
-        ND_id: user?.ND_id,
-        tongtien: sum_price,
-        trangthai: "Chờ xác nhận",
-        PTTT: "Thanh toán Online",
-        sanpham: products,
-      };
-      localStorage.setItem("orders", JSON.stringify(onlinePayment));
+      try {
+        const response = await axios.post("/api/order/check", {
+          sanpham: products,
+        });
+
+        if (response.data) {
+          const online = await makePayment();
+          const onlinePayment = {
+            ND_id: user?.ND_id,
+            tongtien: sum_price,
+            trangthai: "Chờ xác nhận",
+            PTTT: "Thanh toán Online",
+            sanpham: products,
+          };
+          localStorage.setItem("orders", JSON.stringify(onlinePayment));
+        } else {
+          api.open({
+            key,
+            type: "error",
+            message: "Số lượng sản phẩm vượt quá số lượng trong kho",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       try {
         const response = await axios.post("/api/order", {

@@ -19,8 +19,10 @@ const ProductDetail = () => {
   const [numberStar, setNumberstar] = useState(0);
   const [falg, setFalg] = useState(false);
   const [avegareStar, setAvegareStar] = useState(0);
+  const [totalSales, setTotalSales] = useState(0);
   useEffect(() => {
     getProduct();
+    getTotalSalesProduct();
   }, [location]);
   useEffect(() => {
     getComments();
@@ -47,6 +49,16 @@ const ProductDetail = () => {
       });
       setProduct(response.data.product);
       setProducts(response.data.relate_products);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  const getTotalSalesProduct = async () => {
+    try {
+      const response = await axios.get("/api/product-totalSales", {
+        params: { SP_id: id },
+      });
+      setTotalSales(response.data.total_sales);
     } catch (e) {
       console.error(e);
     }
@@ -220,12 +232,20 @@ const ProductDetail = () => {
                     <p className="m-0 p-0 me-1">
                       {avegareStar !== undefined ? avegareStar.toFixed(1) : ""}
                     </p>
-                    <Rate
-                      className="mt-1"
-                      style={{ fontSize: "16px" }}
-                      allowHalf
-                      value={avegareStar} // Use 'value' instead of 'defaultValue' to make it controlled
-                    />
+                    <div className="d-flex">
+                      <Rate
+                        className="mt-1 me-4"
+                        style={{ fontSize: "16px" }}
+                        allowHalf
+                        value={avegareStar} // Use 'value' instead of 'defaultValue' to make it controlled
+                      />
+                      <p className=" p-0 m-0" style={{ color: "#333" }}>
+                        {totalSales}
+                        <span className="ms-1" style={{ color: "#767676" }}>
+                          Đã bán
+                        </span>
+                      </p>
+                    </div>
                   </div>
 
                   {product.discount && product?.SP_gia && (
