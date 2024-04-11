@@ -225,7 +225,7 @@ const BlogDetail = () => {
                         }}
                         className="btn btn-comment mt-3"
                       >
-                        Tải bình luận
+                        Đăng bình luận
                       </button>
                     </div>
                   </div>

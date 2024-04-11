@@ -5,6 +5,8 @@ import { useParams, Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../../context/userContext";
 import { Rate, Avatar, notification } from "antd";
+import ReactImageMagnify from "react-image-magnify";
+
 const ProductDetail = () => {
   const location = useLocation();
   const { user } = useContext(UserContext);
@@ -20,6 +22,7 @@ const ProductDetail = () => {
   const [falg, setFalg] = useState(false);
   const [avegareStar, setAvegareStar] = useState(0);
   const [totalSales, setTotalSales] = useState(0);
+  const [idImg, setIdImg] = useState(0);
   useEffect(() => {
     getProduct();
     getTotalSalesProduct();
@@ -181,6 +184,9 @@ const ProductDetail = () => {
     const lastName = nameParts[nameParts.length - 1]; // Lấy từ cuối cùng trong mảng
     return lastName.charAt(0).toUpperCase(); // Trả về ký tự đầu tiên của từ cuối cùng
   };
+  const handleClick = (index) => {
+    setIdImg(index);
+  };
   return (
     <div>
       <div
@@ -195,12 +201,25 @@ const ProductDetail = () => {
                 <div className="col-12 col-sm-12 col-md-6">
                   <div className="row">
                     <div className="col-md-12">
-                      <img
-                        key={1}
-                        src={product?.images ? product.images[0].HA_URL : ""}
-                        alt="Hình ảnh sản phẩm"
-                        style={{ width: "100%" }}
-                      />
+                      {product?.images ? (
+                        <ReactImageMagnify
+                          {...{
+                            smallImage: {
+                              alt: "Wristwatch by Ted Baker London",
+                              isFluidWidth: true,
+                              src: product.images[idImg].HA_URL,
+                            },
+                            largeImage: {
+                              src: product.images[idImg].HA_URL,
+                              width: 1129,
+                              height: 750,
+                            },
+                            enlargedImagePosition: "over",
+                          }}
+                        />
+                      ) : (
+                        ""
+                      )}
                     </div>
                     <div
                       className="d-flex mt-4  list-product col-md-12"
@@ -216,6 +235,7 @@ const ProductDetail = () => {
                           <img
                             key={index}
                             src={image.HA_URL}
+                            onClick={() => handleClick(index)}
                             style={{ height: "100%" }}
                             className="me-2 img-fluid"
                           />
@@ -362,7 +382,7 @@ const ProductDetail = () => {
                         className="btn btn-comment mt-3"
                         onClick={handeCommnet}
                       >
-                        Tải lên
+                        Đăng đánh giá
                       </button>
                     </div>
                   </div>
