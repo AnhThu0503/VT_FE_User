@@ -3,6 +3,8 @@ import banner2 from "../../assets/Banner/Banner2.jpg";
 import banner3 from "../../assets/Banner/Banner3.jpg";
 import banner4 from "../../assets/Banner/Banner4.jpg";
 import banner5 from "../../assets/Banner/Banner5.jpg";
+import banner6 from "../../assets/Banner/Banner6.jpg";
+import banner7 from "../../assets/Banner/Banner7.jpeg";
 
 const Banner = () => {
   return (

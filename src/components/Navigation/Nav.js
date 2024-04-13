@@ -110,7 +110,7 @@ const Nav = ({ flag, setFlag }) => {
                 </a>
                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li style={{ borderBottom: "1px solid #67666638" }}>
-                    <Link to="/product-all" className="dropdown-item">
+                    <Link to="/products" className="dropdown-item">
                       Tất cả sản phẩm
                     </Link>
                   </li>

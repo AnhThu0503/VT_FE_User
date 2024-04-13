@@ -40,7 +40,7 @@ function App() {
             <Route path="address" element={<FormAddress />} exact />
             <Route path="order" element={<FormOrder />} exact />
           </Route>
-          <Route path="/product-all" element={<ProductAll />} exact />
+          <Route path="/products" element={<ProductAll />} exact />
           <Route
             path="/product-all-discount"
             element={<ProductDiscountAll />}

@@ -315,8 +315,8 @@ const ProductDetail = () => {
                   <div className="product-description ">
                     <div className="d-flex">
                       <CaretRightFill
+                        className="mt-1"
                         style={{ color: "#FF4D00" }}
-                        className="mt-2"
                       />
                       <h4
                         className="product-description-title"
@@ -338,9 +338,8 @@ const ProductDetail = () => {
                         fontSize: "16px",
                         fontFamily: "sans-serif",
                       }}
-                    >
-                      {product.SP_moTa}
-                    </div>
+                      dangerouslySetInnerHTML={{ __html: product.SP_moTa }}
+                    ></div>
                   </div>
                 </div>
               </div>
