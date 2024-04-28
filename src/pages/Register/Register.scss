@@ -1,6 +1,6 @@
 .register-container {
     background-color: #f0f2f5;
-    min-height: 75vh;
+    min-height: 65vh;
     // padding-top: 20px;
 
 
@@ -9,8 +9,10 @@
         background-color: #fff;
         box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
         width: 400px;
-        height: 580px;
-
+        height: 500px;
+    .ant-form-item{
+        margin-bottom: 10px !important;
+    }       
 
         .forgot-password {
             text-decoration: none;

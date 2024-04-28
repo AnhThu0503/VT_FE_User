@@ -6,14 +6,17 @@ import { UserContext } from "../../context/userContext";
 import axios from "axios";
 import { notification, Select } from "antd";
 import { loadStripe } from "@stripe/stripe-js";
+import { Input, Radio, Space } from "antd";
+import PayPal from "../../assets/Banner/PayPal-logo.png";
+import thanhtoan from "../../assets/Banner/chuyen-phat-nhanh.jpeg";
 
 const key = "updatable";
 const Cart = () => {
   const [api, contextHolder] = notification.useNotification();
-  const { user } = useContext(UserContext);
+  const { user, setCart } = useContext(UserContext);
   const [products, setProducts] = useState([]);
   const [sum_price, setSumPrice] = useState(0);
-  const [payment, setPayment] = useState("trucTiep");
+  const [value, setValue] = useState(1);
   const [numberProduct, setNumberProduct] = useState(1);
 
   useEffect(() => {
@@ -34,7 +37,10 @@ const Cart = () => {
       }
     })();
   }, []);
-
+  const onChange = (e) => {
+    console.log("radio checked", e.target.value);
+    setValue(e.target.value);
+  };
   const getItemCart = async () => {
     try {
       const response = await axios.get("/api/cart/items", {
@@ -65,7 +71,32 @@ const Cart = () => {
     caculateTotal(products);
   }, [products]);
 
-  const removeItem = async (item_id) => {
+  const addToCard = async (id, numberProduct) => {
+    try {
+      const response = await axios.post("/api/cart/add", {
+        SP_id: id,
+        ND_id: user.ND_id,
+        numberProduct: numberProduct,
+      });
+      // if (response.data) {
+      //   api.open({
+      //     key,
+      //     type: "success",
+      //     message: "Thêm sản phẩm vào giỏ hàng thành công",
+      //   });
+      // } else {
+      //   api.open({
+      //     key,
+      //     type: "error",
+      //     message: "Thêm sản phẩm vào giỏ hàng thất bại",
+      //   });
+      // }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const removeItem = async (item_id, id_product) => {
     try {
       const response = await axios.delete("/api/cart/item", {
         params: {
@@ -78,8 +109,11 @@ const Cart = () => {
           type: "success",
           message: "Xóa sản phẩm thành công",
         });
-        setProducts(products.filter((item) => item.SPGH_id !== item_id));
-        window.location.reload();
+        const updatedProducts = products.filter(
+          (item) => item.SPGH_id !== item_id
+        );
+        setProducts(updatedProducts);
+        setCart(sumCart(updatedProducts));
       } else {
         api.open({
           key,
@@ -93,7 +127,7 @@ const Cart = () => {
   };
 
   const createOrder = async () => {
-    if (payment === "online") {
+    if (value == 2) {
       try {
         const response = await axios.post("/api/order/check", {
           sanpham: products,
@@ -145,10 +179,6 @@ const Cart = () => {
     }
   };
 
-  const handleChange = (value) => {
-    setPayment(value);
-  };
-
   const makePayment = async () => {
     const stripe = await loadStripe(
       "pk_test_51OxTc1RxWukTEIoI2XVeckTJvqcoeCREO94fmm6FOOtMMYnf0vdd1UdBbjZYMAxosuHIwHPNPpPl5uOO8KkgkevF00ZrwiNZAX"
@@ -178,7 +208,7 @@ const Cart = () => {
     }
   };
 
-  const handleAdd = (index) => {
+  const handleAdd = (index, id_product) => {
     // Create a copy of the products array
     const updatedProducts = [...products];
 
@@ -187,7 +217,7 @@ const Cart = () => {
       ...updatedProducts[index],
       soLuong: updatedProducts[index].soLuong + 1,
     };
-
+    // console.log("11", products[index].SPGH_id);
     if (updatedProducts[index].soLuong >= 10) {
       api.open({
         key,
@@ -195,12 +225,23 @@ const Cart = () => {
         message: "Số lượng sản phẩm tối đa là 9",
       });
       return;
+    } else {
+      addToCard(id_product, 1);
+      setCart(sumCart(updatedProducts));
     }
     // Set the state with the updated array
     setProducts(updatedProducts);
   };
 
-  const handleDelete = (index) => {
+  const sumCart = (products) => {
+    let sum = 0;
+    products.map((item) => {
+      sum += item.soLuong;
+    });
+    return sum;
+  };
+
+  const handleDelete = (index, id_product) => {
     // Create a copy of the products array
     const updatedProducts = [...products];
 
@@ -217,6 +258,9 @@ const Cart = () => {
         message: "Số lượng sản phẩm tối thiểu là 1",
       });
       return;
+    } else {
+      addToCard(id_product, -1);
+      setCart(sumCart(updatedProducts));
     }
     // Set the state with the updated array
     setProducts(updatedProducts);
@@ -296,7 +340,7 @@ const Cart = () => {
                         <div
                           className="input-group-addon cursor-pointer"
                           onClick={() => {
-                            handleDelete(idx);
+                            handleDelete(idx, item.SP_id);
                           }}
                         >
                           -
@@ -312,7 +356,7 @@ const Cart = () => {
                         <div
                           className="input-group-addon cursor-pointer"
                           onClick={() => {
-                            handleAdd(idx);
+                            handleAdd(idx, item.SP_id);
                           }}
                           style={{ marginLeft: "-10px" }}
                         >
@@ -353,22 +397,47 @@ const Cart = () => {
               </tr>
             </tbody>
           </table>
-          <div className="d-flex" style={{ justifyContent: "space-between" }}>
-            <div className="">
+
+          <div className="d-flex">
+            <div>
+              <p className="p-0 m-0 mb-2 hinhthucthanhtoan">
+                Hình thức thanh toán
+              </p>
               {/* phuong thuc thanh toan */}
-              <Select
-                defaultValue="Thanh toán trực tiếp"
-                className=""
-                size="large"
-                style={{ width: 190 }}
-                onChange={handleChange}
-                options={[
-                  { value: "trucTiep", label: "Thanh toán trực tiếp" },
-                  { value: "online", label: "Thanh toán online" },
-                ]}
-              />
+              <Radio.Group onChange={onChange} value={value}>
+                <Space direction="vertical">
+                  <Radio
+                    value={1}
+                    style={{ border: "1px solid #ccc", width: "280px" }}
+                    className="ps-1"
+                  >
+                    <img
+                      className="mb-1 mt-1 me-2"
+                      src={thanhtoan}
+                      style={{ height: "40px", width: "50px" }}
+                    />
+                    Thanh toán khi nhận hàng
+                  </Radio>
+                  <Radio
+                    value={2}
+                    style={{ border: "1px solid #ccc", width: "280px" }}
+                    className="ps-1 p-1  me-2"
+                  >
+                    <img
+                      className=" mb-2"
+                      src={PayPal}
+                      style={{ height: "30px", width: "80px" }}
+                    />
+                    Thanh toán PayPal
+                  </Radio>
+                </Space>
+              </Radio.Group>
             </div>
-            <div className="d-flex">
+            <div></div>
+          </div>
+
+          <div>
+            <div className="d-flex" style={{ justifyContent: "end" }}>
               <p className="border border-1 border-secondary p-2">
                 Tổng thanh toán
               </p>
@@ -383,6 +452,7 @@ const Cart = () => {
               </p>
             </div>
           </div>
+
           <div>
             {user?.ND_id ? (
               <div>
@@ -392,9 +462,9 @@ const Cart = () => {
                       <button
                         className="btn btn-payment"
                         onClick={createOrder}
-                        style={{ width: "216px" }}
+                        style={{ width: "220px" }}
                       >
-                        Thanh toán
+                        Đặt hàng
                       </button>
                     </div>
                   ) : (

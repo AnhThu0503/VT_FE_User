@@ -9,7 +9,7 @@ import ReactImageMagnify from "react-image-magnify";
 
 const ProductDetail = () => {
   const location = useLocation();
-  const { user } = useContext(UserContext);
+  const { user, cart, setCart } = useContext(UserContext);
   const { id } = useParams();
   const [product, setProduct] = useState([]);
   const [products, setProducts] = useState([]);
@@ -80,7 +80,8 @@ const ProductDetail = () => {
           type: "success",
           message: "Thêm sản phẩm vào giỏ hàng thành công",
         });
-        window.location.href = `/product/${id}`;
+        setCart(cart + numberProduct);
+        // window.location.href = `/product/${id}`;
       } else {
         api.open({
           key,
@@ -127,11 +128,20 @@ const ProductDetail = () => {
           type: "warning",
           message: "Vui lòng đăng nhập để tiến hành đánh giá!",
         });
-        if (numberStar === 0 || !commnet.trim()) {
+        return;
+      }
+
+      if (numberStar === 0) {
+        api.open({
+          key,
+          type: "warning",
+          message: "Vui lòng chọn số sao đánh giá!",
+        });
+        if (!commnet.trim()) {
           api.open({
             key,
             type: "warning",
-            message: "Vui lòng nhập nội dung đánh giá và chọn số sao!",
+            message: "Vui lòng nhập nội dung đánh giá!",
           });
         }
         return;
@@ -156,11 +166,17 @@ const ProductDetail = () => {
       }
     } catch (error) {
       console.log(error);
-      api.open({
-        key,
-        type: "error",
-        message: "Thêm đánh giá thất bại!",
-      });
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.error === "Error creating comment"
+      ) {
+        api.open({
+          key,
+          type: "error",
+          message: "Cần mua sản phẩm trước khi đánh giá!",
+        });
+      }
     }
   };
 

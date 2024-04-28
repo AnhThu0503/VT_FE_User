@@ -1,22 +1,28 @@
 import "./Login.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Form, Input, notification, message } from "antd";
 import axios from "axios";
-
+import { UserContext } from "../../context/userContext";
 const key = "updatable";
 
 const Login = () => {
+  const { user, logout, setUser, authLogin } = useContext(UserContext);
+  const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
   const onFinish = async (values) => {
     const response = await axios.post("/api/login", values);
-    console.log(response.data);
+    // console.log("auth login ", response.data);
     if (response.data.success) {
       localStorage.setItem("token", response.data.token);
+
       messageApi.open({
         type: "success",
         content: "Đăng nhập thành công",
       });
-      window.location.href = "/";
+      // window.location.href = "/";
+      authLogin(response.data.token);
+      navigate("/");
     } else {
       messageApi.open({
         type: "error",
@@ -81,7 +87,7 @@ const Login = () => {
               </Form.Item>
               <Form.Item className="text-center">
                 <div style={{ color: "#337ab7" }} className="mb-2">
-                  Bạn quên tài khoản?
+                  Bạn chưa có tài khoản?
                 </div>
                 <Link to="/register">
                   <Button

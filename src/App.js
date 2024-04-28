@@ -21,10 +21,11 @@ import ProductAll from "./pages/ProductAll/ProductAll";
 import ProductDiscountAll from "./pages/ProductAll/ProductDiscountAll";
 import BlogDetail from "./pages/Blog/components/BlogDetail";
 function App() {
-  const { authLogin } = useContext(UserContext);
+  const { authLogin, user, getCart } = useContext(UserContext);
   const [flag, setFlag] = useState("false");
   useEffect(() => {
     authLogin();
+    console.log(user);
   }, []);
   return (
     <BrowserRouter>
@@ -33,20 +34,19 @@ function App() {
         <Routes>
           <Route path="/blogs" element={<Blog />} exact />
           <Route path="/blogs/blog/:id" element={<BlogDetail />} exact />
-
           <Route path="/cart" element={<Cart />} exact />
           <Route path="/account" element={<Account />} exact>
             <Route path="" element={<FormInfoCustomer />} exact />
             <Route path="address" element={<FormAddress />} exact />
             <Route path="order" element={<FormOrder />} exact />
           </Route>
+          a
           <Route path="/products" element={<ProductAll />} exact />
           <Route
             path="/product-all-discount"
             element={<ProductDiscountAll />}
             exact
           />
-
           <Route path="/login" element={<Login />} exact />
           <Route path="/success" element={<Success />} exact />
           <Route path="/cancel" element={<Cancel />} exact />

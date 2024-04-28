@@ -7,8 +7,7 @@ import { MdOutlineLogout } from "react-icons/md";
 import axios from "axios";
 import { UserContext } from "../../context/userContext";
 const Nav = ({ flag, setFlag }) => {
-  const { user } = useContext(UserContext);
-  const token = localStorage.getItem("token");
+  const { user, cart, logout } = useContext(UserContext);
   const [categorys, setCategorys] = useState([]);
   const [sum_item_cart, setSumItemCart] = useState(0);
   const [searchValue, setSearchValue] = useState("");
@@ -18,13 +17,15 @@ const Nav = ({ flag, setFlag }) => {
   useEffect(() => {
     getAllCategory();
     if (user?.ND_id) {
-      getSumItemCart();
+      user && user.ND_id ? setFlag(true) : setFlag(false);
+      // getSumItemCart();
     }
   }, [user.ND_id]);
 
-  useEffect(() => {
-    setFlag(!flag);
-  }, [token]);
+  // useEffect(() => {
+  //   console.log("user", user);
+  //   user && user.ND_id ? setFlag(true) : setFlag(false);
+  // }, [user.ND_id]);
 
   const getAllCategory = async () => {
     try {
@@ -53,22 +54,29 @@ const Nav = ({ flag, setFlag }) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/";
+    logout();
+  };
+  const delay = (ms) => {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   };
 
   const handleSearchValue = async (value) => {
     try {
       if (value) {
+        await delay(500); // Delay 0.5 giây trước khi thực hiện tìm kiếm
+
         const response = await axios.post("/api/products/search", {
           SP_ten: value,
         });
+
         if (response.data.length > 0) {
           console.log("abc>>>>>>>>>>>", response.data);
           setProducts(response.data);
         } else {
           setProducts([]);
         }
+      } else {
+        setProducts([]);
       }
     } catch (error) {
       console.log(error);
@@ -307,7 +315,7 @@ const Nav = ({ flag, setFlag }) => {
                     <Link className="nav-link btn nav-item-cart" to="/cart">
                       {" "}
                       <Cart3 className="fs-5" />
-                      <span>{sum_item_cart}</span>{" "}
+                      <span>{cart ? cart : 0}</span>{" "}
                     </Link>
                   </li>
                   <li

@@ -93,22 +93,24 @@ const BlogDetail = () => {
           type: "warning",
           content: "Vui lòng đăng nhập để tiến hành bình luận!",
         });
-        if (!binhluan) {
-          messageApi.open({
-            type: "warning",
-            content: "Vui lòng nhập nôi dung bình luận!",
-          });
-        }
         return;
       }
-      const data = {
+
+      if (!binhluan.trim()) {
+        messageApi.open({
+          type: "warning",
+          content: "Vui lòng nhập nội dung bình luận!",
+        });
+        return;
+      }
+
+      const response = await axios.post("/api/blog/comment", {
         ND_id: user.ND_id,
         B_id: id,
         BLB_noiDung: binhluan,
         BLB_ngayBL: getCurrentDate(),
         BLB_reply: 0,
-      };
-      const response = await axios.post("/api/blog/comment", data);
+      });
 
       if (response.status === 200) {
         setFalg(!falg);
