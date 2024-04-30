@@ -34,7 +34,7 @@ const Login = () => {
     console.log("Failed:", errorInfo);
   };
   return (
-    <div className="login-container mt-4 mb-5" style={{ paddingTop: "4.5rem" }}>
+    <div className="login-container " style={{ paddingTop: "4.5rem" }}>
       <div className="container">
         <div className="row">
           {contextHolder}

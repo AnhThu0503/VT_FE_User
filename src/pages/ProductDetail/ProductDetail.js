@@ -31,6 +31,17 @@ const ProductDetail = () => {
     getComments();
   }, [falg]);
 
+  useEffect(() => {
+    scrollToTop();
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Cuộn mềm
+    });
+  };
+
   const getComments = async () => {
     try {
       const response = await axios.get("/api/comments", {
@@ -80,7 +91,9 @@ const ProductDetail = () => {
           type: "success",
           message: "Thêm sản phẩm vào giỏ hàng thành công",
         });
-        setCart(cart + numberProduct);
+        // console.log(typeof cart, typeof numberProduct);
+        // alert(Number(cart) + Number(numberProduct));
+        setCart(Number(cart) + Number(numberProduct));
         // window.location.href = `/product/${id}`;
       } else {
         api.open({
@@ -441,7 +454,7 @@ const ProductDetail = () => {
                                 {getFirstLetterOfLastName(comment.ND_ten)}
                               </Avatar>
                               <div>
-                                <h6 className="m-0 mt-2">{comment.ND_email}</h6>
+                                <h6 className="m-0 mt-2">{comment.ND_ten}</h6>
                                 <Rate
                                   allowHalf
                                   defaultValue={comment.DGSP_soSao}

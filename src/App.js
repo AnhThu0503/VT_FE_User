@@ -20,6 +20,7 @@ import Cancel from "./pages/cancel/Cancel";
 import ProductAll from "./pages/ProductAll/ProductAll";
 import ProductDiscountAll from "./pages/ProductAll/ProductDiscountAll";
 import BlogDetail from "./pages/Blog/components/BlogDetail";
+import { FaArrowUp } from "react-icons/fa"; // Import icon scroll top
 function App() {
   const { authLogin, user, getCart } = useContext(UserContext);
   const [flag, setFlag] = useState("false");
@@ -27,10 +28,44 @@ function App() {
     authLogin();
     console.log(user);
   }, []);
+  useEffect(() => {
+    // Thêm sự kiện cuộn màn hình
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      // Xóa sự kiện khi component bị hủy
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  // Xử lý sự kiện cuộn màn hình
+  const handleScroll = () => {
+    if (window.pageYOffset > 100) {
+      // Nếu cuộn xuống đủ xa, hiển thị nút scroll top
+      setShowScrollTop(true);
+    } else {
+      // Ngược lại, ẩn nút scroll top
+      setShowScrollTop(false);
+    }
+  };
+
+  // Xử lý khi người dùng click nút scroll top
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Cuộn mềm
+    });
+  };
+
   return (
     <BrowserRouter>
       <div className="app-container" style={{ backgroundColor: "#f1f1f1" }}>
         <Nav flag={flag} setFlag={setFlag} />
+        {showScrollTop && (
+          <button className="scroll-top" onClick={scrollToTop}>
+            <FaArrowUp />
+          </button>
+        )}
         <Routes>
           <Route path="/blogs" element={<Blog />} exact />
           <Route path="/blogs/blog/:id" element={<BlogDetail />} exact />
@@ -40,7 +75,6 @@ function App() {
             <Route path="address" element={<FormAddress />} exact />
             <Route path="order" element={<FormOrder />} exact />
           </Route>
-          a
           <Route path="/products" element={<ProductAll />} exact />
           <Route
             path="/product-all-discount"

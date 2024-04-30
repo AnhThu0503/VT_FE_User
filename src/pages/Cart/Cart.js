@@ -267,13 +267,13 @@ const Cart = () => {
   };
 
   return (
-    <div className="cart-background my-4" style={{ paddingTop: "4.5rem" }}>
+    <div className="cart-background " style={{ paddingTop: "4.5rem" }}>
       {/* <Nav /> */}
 
       <div className="container p-4" style={{ backgroundColor: "#ffffff" }}>
         <h3>Giỏ hàng</h3>
-        <div className="table-responsive ">
-          <table className="table table-light p-4 mt-2">
+        <div className="table-responsive">
+          <table className="table table-light  mt-2">
             <thead>
               <tr>
                 <th scope="col">STT</th>

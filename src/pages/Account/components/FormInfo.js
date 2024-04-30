@@ -92,7 +92,7 @@ const FormInfo = () => {
               },
             ]}
           >
-            <Input value={customer.ND_email} disabled></Input>
+            <Input value={customer.ND_email}></Input>
           </Form.Item>
           <Form.Item
             label="SĐT"

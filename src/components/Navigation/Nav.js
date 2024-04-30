@@ -14,6 +14,8 @@ const Nav = ({ flag, setFlag }) => {
   const [isSeach, setIsSeach] = useState(false);
   const [products, setProducts] = useState([]);
 
+  const [onTop, setOnTop] = useState(true);
+
   useEffect(() => {
     getAllCategory();
     if (user?.ND_id) {
@@ -52,6 +54,24 @@ const Nav = ({ flag, setFlag }) => {
       console.error(e);
     }
   };
+  // Định nghĩa hàm để xử lý sự kiện cuộn màn hình
+  function handleScroll() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    // Kiểm tra nếu scrollTop lớn hơn một giá trị nhất định (ví dụ: 100px), thực hiện các hành động tương ứng
+    if (scrollTop > 0) {
+      // Người dùng đã cuộn màn hình xuống đủ xa
+      console.log("Người dùng đã cuộn màn hình xuống đủ xa");
+      setOnTop(false);
+    } else {
+      // Người dùng cuộn màn hình lên top
+      console.log("Người dùng cuộn màn hình lên top");
+      setOnTop(true);
+    }
+  }
+
+  // Gắn sự kiện cuộn màn hình vào window
+  window.addEventListener("scroll", handleScroll);
 
   const handleLogout = () => {
     logout();
@@ -85,8 +105,14 @@ const Nav = ({ flag, setFlag }) => {
 
   return (
     <div className="">
-      <nav className=" navbar navbar-expand-lg navbar-light fixed-top ">
-        <div className=" container">
+      <nav
+        className={
+          !onTop
+            ? "navbar navbar-expand-lg navbar-light fixed-top "
+            : " navbar navbarNonTop  navbar-expand-lg navbar-light fixed-top"
+        }
+      >
+        <div className=" container-fluid px-4">
           <Link className="navbar-brand" to="/">
             <img src={logo3} style={{ width: "4.5rem", height: "3rem" }}></img>
           </Link>
@@ -163,8 +189,8 @@ const Nav = ({ flag, setFlag }) => {
                     <div
                       id="inputSearch"
                       style={{
-                        width: "98%",
-                        height: "21rem",
+                        width: "99%",
+                        height: "20rem",
                         borderRadius: "5px",
                         backgroundColor: "#fff",
                         boxShadow: "1px 2px 3px solid #000",
@@ -204,7 +230,7 @@ const Nav = ({ flag, setFlag }) => {
                                 }}
                               >
                                 <div
-                                  className="display-product-search p-2"
+                                  className="display-product-search p-1"
                                   key={index}
                                   style={{
                                     width: "90%",
@@ -213,8 +239,9 @@ const Nav = ({ flag, setFlag }) => {
                                     justifyContent: "space-between",
                                     cursor: "pointer",
                                     margin: "10px auto",
-                                    borderRadius: "8px",
-                                    boxShadow: "1px 2px 3px #ccc",
+                                    // borderRadius: "8px",
+                                    borderBottom: "1px solid #ccc",
+                                    // boxShadow: "1px 2px 3px #ccc",
                                   }}
                                 >
                                   <div

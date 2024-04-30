@@ -1,8 +1,11 @@
 .navbar {
     margin: 0;
-    background-color: rgba(32, 26, 22, .9) !important;
+    background-color: #f1f1f1 !important;
+    // box-shadow: none    ;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+
     .nav-link {
-        color: #fff !important;
+        color: #ff6c2d !important;
         font-family: "Nunito", sans-serif;
         font-optical-sizing: auto;
         font-weight: 400;
@@ -36,7 +39,7 @@
         }
 
         input {
-            border-radius: 50px;
+            border-radius: 5px;
         }
         .display-product-search{
             &:hover{
@@ -47,7 +50,6 @@
 
     .btn-login {
         // border: 1px solid #ff4d00;
-        color: #fff !important;
 
         &:hover {
             cursor: pointer;
@@ -75,5 +77,13 @@
             color: white;
             font-size: 12px;
         }
+    }
+}
+
+.navbarNonTop {
+    background-color: transparent !important;
+    box-shadow:none;
+    .nav-link {
+        color: #ff6c2d !important;
     }
 }

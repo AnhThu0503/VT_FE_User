@@ -60,7 +60,7 @@ const Account = (props) => {
 
   return (
     <div
-      className="container-fluid account-background my-4"
+      className="container-fluid account-background "
       style={{ paddingTop: "4.5rem" }}
     >
       <div className="container account-container">

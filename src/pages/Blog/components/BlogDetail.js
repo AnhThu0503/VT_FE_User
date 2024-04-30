@@ -32,9 +32,9 @@ const BlogDetail = () => {
     return lastName.charAt(0).toUpperCase(); // Trả về ký tự đầu tiên của từ cuối cùng
   };
 
-  const handleReplyButtonClick = (commentId, ND_email) => {
+  const handleReplyButtonClick = (commentId, ND_ten) => {
     console.log("commentId", commentId);
-    setTraLoiBL(ND_email + "   ");
+    setTraLoiBL(ND_ten + "   ");
     setReplyInputVisibleForComment(commentId);
   };
 
@@ -274,7 +274,7 @@ const BlogDetail = () => {
                                 borderRadius: "10px",
                               }}
                             >
-                              <h6 className="m-0 p-0">{comment.ND_email}</h6>
+                              <h6 className="m-0 p-0">{comment.ND_ten}</h6>
                               <p
                                 style={{ color: "#ccc", fontSize: "15px" }}
                                 className="p-0 m-0"
@@ -296,7 +296,7 @@ const BlogDetail = () => {
                             onClick={() =>
                               handleReplyButtonClick(
                                 comment.BLB_id,
-                                comment.ND_email
+                                comment.ND_ten
                               )
                             }
                           >
@@ -348,7 +348,7 @@ const BlogDetail = () => {
                                       }}
                                     >
                                       <h6 className="m-0 p-0">
-                                        {reply.ND_email}
+                                        {reply.ND_ten}
                                       </h6>
                                       <p
                                         style={{
@@ -375,7 +375,7 @@ const BlogDetail = () => {
                                     onClick={() =>
                                       handleReplyButtonClick(
                                         reply.BLB_id,
-                                        reply.ND_email
+                                        reply.ND_ten
                                       )
                                     }
                                   >

@@ -4,11 +4,12 @@ const Footer = () => {
     <div
       className="container-fluid footer-container"
       style={{
-        backgroundColor: "rgba(32, 26, 22, .9)",
+        backgroundColor: "currenColor",
       }}
     >
-      <div className="container" style={{ color: "#ffffff" }}>
-        <div className="row p-4">
+      <div className="horizontal-line my-4"></div>
+      <div className="container" style={{ color: "#000000" }}>
+        <div className="row py-4">
           <div className="col-sm-4 ">
             <h5>SÓC TRĂNG SPECIAL</h5>
             <p>

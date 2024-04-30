@@ -1,0 +1,44 @@
+.app-container{
+    margin-top: 0px !important;
+    .scroll-top {
+        position: fixed; /* Đảm bảo nút luôn hiển thị ngay cả khi cuộn màn hình */
+        bottom: 120px; /* Khoảng cách từ nút đến phía dưới của màn hình */
+        right: 42px; /* Khoảng cách từ nút đến phía phải của màn hình */
+        color: orange; /* Màu văn bản của nút */
+        border: 1px solid orange;
+        border: none; /* Loại bỏ viền của nút */
+        border-radius: 50%; /* Làm tròn góc của nút */
+        padding-top: 10px; /* Kích thước nút */
+        padding-bottom: 10px; /* Kích thước nút */
+        padding-left: 15px; /* Kích thước nút */
+        padding-right: 15px; /* Kích thước nút */
+        cursor: pointer; /* Đổi con trỏ chuột khi di chuyển qua nút */
+        z-index: 1000; /* Đảm bảo nút hiển thị trên tất cả các phần tử khác */
+      }
+}
+/* Define scrollbar track */
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Màu nền của track */
+}
+
+/* Define scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background-color: #9c9b9b; /* Màu của thumb */
+  border-radius: 10px; /* Độ cong của thumb */
+}
+
+/* Define scrollbar on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #656464; /* Màu của thumb khi hover */
+}
+
+/* Define scrollbar corner */
+::-webkit-scrollbar-corner {
+  background-color: transparent; /* Màu nền của góc scrollbar */
+}
+
+/* Define scrollbar */
+::-webkit-scrollbar {
+  width: 8px; /* Độ rộng của scrollbar chiều dọc */
+  height: 5px; /* Độ cao của scrollbar chiều ngang */
+}

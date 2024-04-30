@@ -3,4 +3,9 @@
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
+    .horizontal-line {
+        width: 100%; /* Độ rộng của đường kẻ ngang */
+        height: 1px; /* Chiều cao của đường kẻ ngang */
+        background-color: #cccccc; /* Màu nền của đường kẻ ngang */
+      }
 }

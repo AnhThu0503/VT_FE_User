@@ -33,11 +33,12 @@ const FormOeder = () => {
       });
 
       let arrtmp = [];
-      response.data.forEach((data) => {
+      response.data.forEach((data, index) => {
         arrtmp.push({
           DH_id: data.order.DH_id,
-          index: data.order.DH_id,
           DH_trangThai: data.order.DH_trangThai,
+          DH_phuongThucTT: data.order.DH_phuongThucTT,
+
           DH_tongTien: data.order.DH_tongTien.toLocaleString("vi", {
             style: "currency",
             currency: "VND",
@@ -80,10 +81,6 @@ const FormOeder = () => {
   };
   const columns = [
     {
-      title: "STT",
-      dataIndex: "index",
-    },
-    {
       title: "Ngày đặt",
       dataIndex: "DH_ngayDat",
     },
@@ -107,6 +104,10 @@ const FormOeder = () => {
     {
       title: "Tổng Tiền",
       dataIndex: "DH_tongTien",
+    },
+    {
+      title: "Hình thức thanh toán",
+      dataIndex: "DH_phuongThucTT",
     },
     {
       title: "Trạng thái",
@@ -200,6 +201,13 @@ const FormOeder = () => {
                     {item.SP_donViTinh}
                   </div>
                   <div>Số lượng: {item.soluong}</div>
+                  <div>
+                    Đơn giá:{" "}
+                    {item.giaBan.toLocaleString("vi", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </div>
                 </div>
               </div>
             ))

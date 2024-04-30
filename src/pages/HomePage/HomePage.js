@@ -4,14 +4,18 @@ import { ChevronRight } from "react-bootstrap-icons";
 import "./HomePage.scss";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import hot from "../../assets/logo/hot.gif";
+import sale from "../../assets/logo/sale.gif";
 import best from "../../assets/logo/200w.gif";
+import best1 from "../../assets/logo/Best1.png";
+
+import tag from "../../assets/logo/313392-middle.png";
+
 import { Rate } from "antd";
 const HomePage = (props) => {
   const [categorys, setCategorys] = useState([]);
   const [productsDiscount, setProductsDiscount] = useState([]);
   const [productsBestseller, setProductsBestseller] = useState([]);
-
+  const [hovered, setHovered] = useState(false);
   useEffect(() => {
     getProductsHome();
     getProductDiscount();
@@ -45,7 +49,7 @@ const HomePage = (props) => {
 
   return (
     <div
-      className="container-fluid homepage-background mt-2"
+      className="container-fluid homepage-background "
       style={{ paddingTop: "4.5rem" }}
     >
       {/* <Nav /> */}
@@ -55,12 +59,17 @@ const HomePage = (props) => {
           <div className="container section-container p-5 my-3">
             <div className="section-header d-flex mb-4">
               <div className="d-flex">
-                <span className="section-title  me-2 mt-1">
+                {/* <span className="section-title  me-2 mt-1">
                   Sản phẩm bán chạy
-                </span>
+                </span> */}
+                <div className="section-title-2">
+                  <h3 className={"text-rainbow-animation"}>
+                    Sản phẩm bán chạy
+                  </h3>
+                </div>
                 <img
                   className=""
-                  src={best}
+                  src={best1}
                   alt=""
                   style={{ width: "50px", height: "50px" }}
                 />
@@ -75,7 +84,7 @@ const HomePage = (props) => {
                       style={{ textDecoration: "none" }}
                     >
                       <div
-                        className="card col-sm-12 d-flex"
+                        className="card custom-product col-sm-12 d-flex"
                         style={{ height: "100%" }}
                       >
                         <img
@@ -132,12 +141,18 @@ const HomePage = (props) => {
           <div className="container section-container p-5 my-3">
             <div className="section-header d-flex mb-4">
               <div className="d-flex">
-                <span className="section-title mt-2 me-2">
+                {/* <span className="section-title mt-2 me-2">
                   Sản phẩm khuyến mãi
-                </span>
+                </span> */}
+                <div className="section-title-2 mt-1">
+                  <h3 className={"text-rainbow-animation"}>
+                    Sản phẩm khuyến mãi
+                  </h3>
+                </div>
+
                 <img
                   className=""
-                  src={hot}
+                  src={sale}
                   alt=""
                   style={{ width: "50px", height: "50px" }}
                 />
@@ -156,7 +171,7 @@ const HomePage = (props) => {
                       style={{ textDecoration: "none" }}
                     >
                       <div
-                        className="card col-sm-12 d-flex"
+                        className="card custom-product col-sm-12 d-flex"
                         style={{ height: "100%" }}
                       >
                         <img
@@ -233,7 +248,7 @@ const HomePage = (props) => {
                         style={{ textDecoration: "none" }}
                       >
                         <div
-                          className="card col-sm-12 d-flex"
+                          className="card custom-product col-sm-12 d-flex"
                           style={{ height: "100%" }}
                         >
                           <img
