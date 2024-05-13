@@ -5,8 +5,10 @@
     padding-left: 0 !important;
     padding-right: 0 !important;
 .blog-container {
-
+    // padding-top: 20px;
     .box-blog {
+        padding-top: 10px;
+        border-radius: 4px !important;
         .card {
             border: none;
 
@@ -18,6 +20,9 @@
 
 
                 .blog-img {
+                    img{
+                        border-radius: 4px !important;
+                    }
                     object-fit: cover;
                     opacity: 1;
                     -webkit-transition: .3s ease-in-out;
@@ -38,7 +43,9 @@
         }
     }
     .recent-blog{
+        border-radius: 4px !important;
         .blog-img {
+            border-radius: 4px !important;
             object-fit: cover;
             opacity: 1;
             -webkit-transition: .3s ease-in-out;

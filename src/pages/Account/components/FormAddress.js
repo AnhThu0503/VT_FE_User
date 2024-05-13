@@ -29,6 +29,7 @@ const FormAddress = () => {
             ...customer,
             ND_diaChi: address_detail + " - " + address,
           });
+          window.location.href = "/account/address";
         } else {
           api.open({
             key,

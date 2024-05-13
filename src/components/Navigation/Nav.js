@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./Nav.scss";
 import { Link } from "react-router-dom";
 import logo3 from "../../assets/logo/logo3.png";
+import logo from "../../assets/logo/logo.png";
 import { Cart3, PersonFill } from "react-bootstrap-icons";
 import { MdOutlineLogout } from "react-icons/md";
 import axios from "axios";
@@ -104,17 +105,21 @@ const Nav = ({ flag, setFlag }) => {
   };
 
   return (
-    <div className="">
+    <div className=" ">
       <nav
         className={
-          !onTop
-            ? "navbar navbar-expand-lg navbar-light fixed-top "
-            : " navbar navbarNonTop  navbar-expand-lg navbar-light fixed-top"
+          onTop === true
+            ? "navbarTop navbar navbar-expand-lg navbar-light fixed-top py-3"
+            : "navbarNonTop navbar navbar-expand-lg navbar-light fixed-top py-3"
         }
       >
         <div className=" container-fluid px-4">
           <Link className="navbar-brand" to="/">
-            <img src={logo3} style={{ width: "4.5rem", height: "3rem" }}></img>
+            <img
+              src={logo}
+              className=""
+              style={{ width: "auto", height: "40px" }}
+            ></img>
           </Link>
           <button
             className="navbar-toggler"
@@ -132,13 +137,14 @@ const Nav = ({ flag, setFlag }) => {
               className="navbar-nav me-auto mb-2 mb-lg-0"
               style={{ flexGrow: "1" }}
             >
-              <li className="nav-item dropdown ms-3 me-3 mt-1">
+              <li className="nav-item dropdown  me-3 mt-1">
                 <a
-                  className="nav-link dropdown-toggle"
+                  className="nav-link dropdown-toggle "
                   id="navbarDropdown"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
+                  style={{ fontSize: "18px" }}
                 >
                   Danh sách sản phẩm
                 </a>
@@ -332,7 +338,11 @@ const Nav = ({ flag, setFlag }) => {
               </li>
 
               <li className="nav-item ">
-                <Link className="nav-link btn mt-1" to="/blogs">
+                <Link
+                  style={{ fontSize: "18px" }}
+                  className="nav-link btn mt-1"
+                  to="/blogs"
+                >
                   Blog
                 </Link>
               </li>
@@ -341,7 +351,7 @@ const Nav = ({ flag, setFlag }) => {
                   <li className="nav-item ms-3 me-3">
                     <Link className="nav-link btn nav-item-cart" to="/cart">
                       {" "}
-                      <Cart3 className="fs-5" />
+                      <Cart3 className="fs-4" />
                       <span>{cart ? cart : 0}</span>{" "}
                     </Link>
                   </li>
@@ -354,17 +364,25 @@ const Nav = ({ flag, setFlag }) => {
                     }}
                   >
                     <Link className="nav-link btn" to="/account">
-                      <PersonFill className="fs-4 me-1" />
+                      <PersonFill className="fs-3 me-1" />
                     </Link>
-                    <Link className="nav-link btn mt-1" onClick={handleLogout}>
+                    <Link
+                      className="nav-link btn mt-1"
+                      style={{ fontSize: "18px" }}
+                      onClick={handleLogout}
+                    >
                       {user.ND_ten}
-                      <MdOutlineLogout className="fs-5 ms-1 " />
+                      <MdOutlineLogout className="fs-4 ms-1 " />
                     </Link>
                   </li>
                 </>
               ) : (
                 <li className="nav-item mt-1">
-                  <Link className="nav-link btn btn-login " to="/login">
+                  <Link
+                    className="nav-link btn btn-login "
+                    style={{ fontSize: "18px" }}
+                    to="/login"
+                  >
                     Đăng nhập
                   </Link>
                 </li>

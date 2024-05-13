@@ -4,9 +4,63 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button, Form, Input, notification, message } from "antd";
 import axios from "axios";
 import { UserContext } from "../../context/userContext";
+import gg from "../../assets/logo/gg.png";
+// import { login } from "../../store/features/auth";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+// import { useDispatch } from "react-redux";
+
 const key = "updatable";
 
 const Login = () => {
+  const [userLoginGoogle, setUserLoginGoogle] = useState([]);
+
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => setUserLoginGoogle(codeResponse),
+    onError: (error) => console.log("Login Failed:", error),
+  });
+
+  useEffect(() => {
+    console.log("userLoginGoogle", userLoginGoogle);
+    if (userLoginGoogle) {
+      axios
+        .get(
+          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${userLoginGoogle.access_token}`,
+          {
+            headers: {
+              Authorization: `Bearer ${userLoginGoogle.access_token}`,
+              Accept: "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          console.log("res.data", res.data);
+          axios
+            .post("/api/login-google", {
+              profile: res.data,
+            })
+            .then((res) => {
+              console.log("res.data", res.data);
+              if (res.data.success) {
+                localStorage.setItem("token", res.data.token);
+                messageApi.open({
+                  type: "success",
+                  content: "Đăng nhập thành công",
+                });
+                authLogin(res.data.token);
+                navigate("/");
+              }
+            })
+            .catch((err) => console.log(err));
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [userLoginGoogle]);
+
+  // useEffect(() => {
+  //   if (profile !== null) {
+  //   }
+  // }, [profile]);
+
   const { user, logout, setUser, authLogin } = useContext(UserContext);
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
@@ -74,7 +128,6 @@ const Login = () => {
               >
                 <Input.Password />
               </Form.Item>
-
               <Form.Item className="text-center">
                 <Button
                   className="btn-login"
@@ -85,6 +138,16 @@ const Login = () => {
                   Đăng nhập
                 </Button>
               </Form.Item>
+              <div className="text-center m-3">
+                <Button onClick={() => login()} className="pb-2">
+                  Đăng nhập với Google
+                  <img
+                    src={gg}
+                    style={{ width: "40px", height: "30px" }}
+                    className=""
+                  ></img>
+                </Button>
+              </div>
               <Form.Item className="text-center">
                 <div style={{ color: "#337ab7" }} className="mb-2">
                   Bạn chưa có tài khoản?

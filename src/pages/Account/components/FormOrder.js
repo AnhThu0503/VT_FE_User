@@ -155,7 +155,7 @@ const FormOeder = () => {
     setIsModalOpen(false);
   };
   return (
-    <div className="container-order">
+    <div className="container-order " style={{ minHeight: "390px" }}>
       {contextHolder}
       <Table
         columns={columns}

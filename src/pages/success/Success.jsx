@@ -1,11 +1,15 @@
-import React, { useEffect } from "react";
 import axios from "axios";
 import "./Success.scss";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from "../../context/userContext";
+
 const Success = () => {
+  const { getCart, setCart } = useContext(UserContext);
   useEffect(() => {
+    // setCart(0);
     const orders = JSON.parse(localStorage.getItem("orders"));
 
     if (orders) {
@@ -15,6 +19,7 @@ const Success = () => {
         const response = await axios.post("/api/order", orders);
         console.log(response);
         if (response) {
+          getCart();
           localStorage.removeItem("orders");
         }
       })();
@@ -22,7 +27,7 @@ const Success = () => {
   }, []);
   return (
     <div
-      className="container-fluid success-background my-4"
+      className="container-fluid success-background "
       style={{
         paddingTop: "4.5rem",
         marginBottom: "5rem",

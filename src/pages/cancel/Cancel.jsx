@@ -11,7 +11,7 @@ const Cancel = () => {
   }, []);
   return (
     <div
-      className="container-fluid success-background my-4"
+      className="container-fluid success-background "
       style={{
         paddingTop: "4.5rem",
         marginBottom: "5rem",

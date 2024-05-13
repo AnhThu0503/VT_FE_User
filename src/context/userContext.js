@@ -26,6 +26,7 @@ const UserProvider = ({ children }) => {
   };
 
   const getCart = async () => {
+    console.log("run get cart");
     try {
       const response = await axios.get("/api/cart/sum", {
         params: {

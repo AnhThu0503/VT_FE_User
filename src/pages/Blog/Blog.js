@@ -82,10 +82,10 @@ const Blog = () => {
         className="container-fluid blog-background"
         style={{ paddingTop: "4.5rem" }}
       >
-        <div className="container blog-container px-4 py-3">
+        <div className="container blog-container  py-3">
           <div className="row">
             <div
-              className="box-blog col-12 col-sm-9 p-4"
+              className="box-blog col-12 col-sm-9 "
               style={{ backgroundColor: "#ffffff" }}
             >
               <div className="row">
@@ -164,7 +164,11 @@ const Blog = () => {
             <div className="recent-blog col-sm-3 d-none d-sm-block">
               <div
                 className="list-product"
-                style={{ width: "90%", backgroundColor: "#ffffff" }}
+                style={{
+                  width: "100%",
+                  borderRadius: "4px",
+                  backgroundColor: "#ffffff",
+                }}
               >
                 {/* <Tree
                   className=""

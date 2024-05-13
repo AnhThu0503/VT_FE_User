@@ -186,10 +186,10 @@ const BlogDetail = () => {
         className="container-fluid blog-background"
         style={{ paddingTop: "4.5rem" }}
       >
-        <div className="container blog-container my-4 px-4">
+        <div className="container blog-container my-4 ">
           <div className="row">
             <div className="col-12 col-sm-12 col-md-9 item-left p-4">
-              <div>
+              <div className="col-sm-12">
                 <div>{blog?.B_tieuDe ? blog.B_tieuDe : ""}</div>
                 <div
                   dangerouslySetInnerHTML={{
@@ -416,7 +416,7 @@ const BlogDetail = () => {
               </div>
             </div>
             <div className="col-md-3 item-right d-sm-none d-md-block">
-              <div className="item-right_child ms-4 p-2 row">
+              <div className="item-right_child ms-2 p-2 row">
                 <h4
                   style={{
                     fontSize: "20px",

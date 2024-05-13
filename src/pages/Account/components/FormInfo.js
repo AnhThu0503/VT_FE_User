@@ -39,6 +39,7 @@ const FormInfo = () => {
           type: "success",
           message: "Cập nhật thông tin thành công",
         });
+        window.location.href = "/account";
       } else {
         api.open({
           key,
@@ -106,16 +107,7 @@ const FormInfo = () => {
           >
             <Input />
           </Form.Item>
-          <Form.Item
-            label="ĐỊA CHỈ"
-            name="address"
-            rules={[
-              {
-                required: true,
-                message: "Please input!",
-              },
-            ]}
-          >
+          <Form.Item label="ĐỊA CHỈ" name="address">
             {customer.ND_diaChi ? (
               <Input
                 value={customer.ND_diaChi}

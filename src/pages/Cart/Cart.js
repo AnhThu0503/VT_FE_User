@@ -10,6 +10,10 @@ import { Input, Radio, Space } from "antd";
 import PayPal from "../../assets/Banner/PayPal-logo.png";
 import thanhtoan from "../../assets/Banner/chuyen-phat-nhanh.jpeg";
 
+import { BsFillPersonFill } from "react-icons/bs";
+import { BsFillGeoAltFill } from "react-icons/bs";
+import { BsFillPhoneVibrateFill } from "react-icons/bs";
+
 const key = "updatable";
 const Cart = () => {
   const [api, contextHolder] = notification.useNotification();
@@ -26,12 +30,17 @@ const Cart = () => {
   }, [user.ND_id]);
 
   useEffect(() => {
+    console.log("run_____");
+    getItemCart();
+  }, []);
+
+  useEffect(() => {
     (async () => {
       try {
         const response = await axios.post("/api/customer/infor", {
           ND_id: user?.ND_id,
         });
-        console.log("goi api", response.data);
+        console.log("goi api user", response.data);
       } catch (error) {
         console.log(error);
       }
@@ -78,19 +87,6 @@ const Cart = () => {
         ND_id: user.ND_id,
         numberProduct: numberProduct,
       });
-      // if (response.data) {
-      //   api.open({
-      //     key,
-      //     type: "success",
-      //     message: "Thêm sản phẩm vào giỏ hàng thành công",
-      //   });
-      // } else {
-      //   api.open({
-      //     key,
-      //     type: "error",
-      //     message: "Thêm sản phẩm vào giỏ hàng thất bại",
-      //   });
-      // }
     } catch (e) {
       console.error(e);
     }
@@ -117,7 +113,7 @@ const Cart = () => {
       } else {
         api.open({
           key,
-          type: "success",
+          type: "error",
           message: "Xóa sản phẩm không thành công",
         });
       }
@@ -163,7 +159,13 @@ const Cart = () => {
           sanpham: products,
         });
         if (response) {
-          window.location.reload();
+          setCart(0);
+          getItemCart();
+          api.open({
+            key,
+            type: "success",
+            message: "Đặt hàng thành công",
+          });
         }
       } catch (error) {
         if (
@@ -269,6 +271,7 @@ const Cart = () => {
   return (
     <div className="cart-background " style={{ paddingTop: "4.5rem" }}>
       {/* <Nav /> */}
+      {contextHolder}
 
       <div className="container p-4" style={{ backgroundColor: "#ffffff" }}>
         <h3>Giỏ hàng</h3>
@@ -397,20 +400,49 @@ const Cart = () => {
               </tr>
             </tbody>
           </table>
+          <div className="d-flex pb-4">
+            <div
+              className=" px-2 me-4 py-2"
+              style={{ border: "1px solid #ccc", borderRadius: "5px" }}
+            >
+              <p className="p-0 m-0 mb-2 hinhthucthanhtoan ">
+                Thông tin giao hàng
+              </p>
+              <div className="mx-2">
+                <BsFillPersonFill
+                  className="fs-4 mb-1 me-2"
+                  style={{ color: "#ccc" }}
+                />
+                {user.ND_ten}
+              </div>
 
-          <div className="d-flex">
-            <div>
-              <p className="p-0 m-0 mb-2 hinhthucthanhtoan">
+              <div className="my-2 mx-2">
+                <BsFillPhoneVibrateFill
+                  className="fs-4 mb-1 me-2"
+                  style={{ color: "#ccc" }}
+                />
+                {user.ND_SDT}
+              </div>
+
+              <div className="mx-2">
+                <BsFillGeoAltFill
+                  className="fs-4 mb-1 me-2"
+                  style={{ color: "#ccc" }}
+                />
+                {user.ND_diaChi}
+              </div>
+            </div>
+            <div
+              className="px-2"
+              style={{ border: "1px solid #ccc", borderRadius: "5px" }}
+            >
+              <p className="p-0 m-0 mb-2 mt-2 hinhthucthanhtoan">
                 Hình thức thanh toán
               </p>
               {/* phuong thuc thanh toan */}
               <Radio.Group onChange={onChange} value={value}>
                 <Space direction="vertical">
-                  <Radio
-                    value={1}
-                    style={{ border: "1px solid #ccc", width: "280px" }}
-                    className="ps-1"
-                  >
+                  <Radio value={1} style={{ width: "280px" }} className="ps-1">
                     <img
                       className="mb-1 mt-1 me-2"
                       src={thanhtoan}
@@ -420,7 +452,7 @@ const Cart = () => {
                   </Radio>
                   <Radio
                     value={2}
-                    style={{ border: "1px solid #ccc", width: "280px" }}
+                    style={{ width: "280px" }}
                     className="ps-1 p-1  me-2"
                   >
                     <img
@@ -433,18 +465,12 @@ const Cart = () => {
                 </Space>
               </Radio.Group>
             </div>
-            <div></div>
           </div>
 
           <div>
-            <div className="d-flex" style={{ justifyContent: "end" }}>
-              <p className="border border-1 border-secondary p-2">
-                Tổng thanh toán
-              </p>
-              <p
-                className="border border-1 border-secondary p-2"
-                style={{ color: "#e64906", fontWeight: "600" }}
-              >
+            <div className="d-flex me-4" style={{ justifyContent: "end" }}>
+              <p className=" me-2">Tổng tiền: </p>
+              <p className=" " style={{ color: "#e64906", fontWeight: "600" }}>
                 {sum_price.toLocaleString("vi", {
                   style: "currency",
                   currency: "VND",
@@ -458,25 +484,38 @@ const Cart = () => {
               <div>
                 <div>
                   {user?.ND_diaChi ? (
-                    <div className="text-end">
-                      <button
-                        className="btn btn-payment"
-                        onClick={createOrder}
-                        style={{ width: "220px" }}
-                      >
-                        Đặt hàng
-                      </button>
-                    </div>
+                    // Kiểm tra nếu người dùng có địa chỉ
+                    user?.ND_SDT ? (
+                      // Kiểm tra nếu người dùng đã có số điện thoại
+                      <div className="text-end">
+                        <button
+                          className="btn btn-payment"
+                          onClick={createOrder}
+                          style={{ width: "170px" }}
+                        >
+                          Đặt hàng
+                        </button>
+                      </div>
+                    ) : (
+                      // Nếu người dùng chưa có số điện thoại, yêu cầu cập nhật
+                      <div className="text-end ">
+                        <Link to="/account" className="update-address">
+                          Cập nhật số điện thoại để thanh toán
+                        </Link>
+                      </div>
+                    )
                   ) : (
+                    // Nếu người dùng chưa có địa chỉ, yêu cầu cập nhật địa chỉ
                     <div className="text-end ">
                       <Link to="/account/address" className="update-address">
-                        Cập nhật địa chỉ để thanh tóan
+                        Cập nhật địa chỉ để thanh toán
                       </Link>
                     </div>
                   )}
                 </div>
               </div>
             ) : (
+              // Hiển thị loader nếu dữ liệu người dùng đang được tải
               <div className="box-loader">
                 <span className="loader"></span>
               </div>

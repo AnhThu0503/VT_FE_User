@@ -480,7 +480,7 @@ const ProductDetail = () => {
               </div>
             </div>
             <div className="col-md-3 item-right d-sm-none d-md-block">
-              <div className="item-right_child ms-4 p-2 row">
+              <div className="item-right_child ms-2 p-2 row">
                 <h4
                   style={{
                     fontSize: "20px",

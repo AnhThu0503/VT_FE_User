@@ -21,6 +21,8 @@ import ProductAll from "./pages/ProductAll/ProductAll";
 import ProductDiscountAll from "./pages/ProductAll/ProductDiscountAll";
 import BlogDetail from "./pages/Blog/components/BlogDetail";
 import { FaArrowUp } from "react-icons/fa"; // Import icon scroll top
+import { BsArrowUpCircle } from "react-icons/bs";
+
 function App() {
   const { authLogin, user, getCart } = useContext(UserContext);
   const [flag, setFlag] = useState("false");
@@ -63,7 +65,7 @@ function App() {
         <Nav flag={flag} setFlag={setFlag} />
         {showScrollTop && (
           <button className="scroll-top" onClick={scrollToTop}>
-            <FaArrowUp />
+            <BsArrowUpCircle className="fs-4" />
           </button>
         )}
         <Routes>

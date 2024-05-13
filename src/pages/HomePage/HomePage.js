@@ -24,6 +24,8 @@ const HomePage = (props) => {
   const getAllProductBanChay = async () => {
     try {
       const response = await axios.get("/api/products-bestseller");
+      console.log("----------------product best seller", response.data);
+
       setProductsBestseller(response.data);
     } catch (error) {
       console.error("Error fetching top-selling products:", error);
@@ -32,7 +34,6 @@ const HomePage = (props) => {
   const getProductDiscount = async () => {
     try {
       const response = await axios.get("/api/products-discount");
-      console.log("----------------response:", response.data);
       setProductsDiscount(response.data.products);
     } catch (error) {
       console.error("Error fetching products discount:", error);
@@ -53,8 +54,9 @@ const HomePage = (props) => {
       style={{ paddingTop: "4.5rem" }}
     >
       {/* <Nav /> */}
+      <div className="container_0"></div>
       <div className="container homepage-container">
-        <Banner />
+        {/* <Banner /> */}
         <div>
           <div className="container section-container p-5 my-3">
             <div className="section-header d-flex mb-4">
