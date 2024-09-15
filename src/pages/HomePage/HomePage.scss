@@ -7,8 +7,8 @@
 
 .container_0 {
     margin-top: -75px;
-    height: 101vh;
-    background-image: url('../../assets/Banner/Chợ\ Nổi\ Ngã\ Năm.png');
+    height: 68vh;
+    background-image: url('https://fruitio.monamedia.net/wp-content/uploads/2024/04/organic2-slider-bg-1.jpg');
     background-size: cover;
     background-position: center;
 }
@@ -17,7 +17,63 @@
     .homepage-container {
         .section-container {
             background-color: #ffffff;
+            .box-img{
+                min-width: 115px;
+                min-height: 115px;
+                position: relative;
+                -webkit-border-radius: 50%;
+                -moz-border-radius: 50%;
+                border-radius: 50%;
+                -webkit-box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+                -moz-box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+                box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+                img{
+                    width: 55px;
+                    height: auto;
+                    max-width: 100%;
+                    border: none;
+                    border-radius: 0;
+                    box-shadow: none;
+                }
+            }
+            
+            .jc {
+                -webkit-box-pack: center;
+                -ms-flex-pack: center;
+                justify-content: center;
+            }
+            .nasa-flex {
+                display: -webkit-box;
+                display: -moz-box;
+                display: -ms-flexbox;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-box-align: center;
+                -ms-flex-align: center;
+                -webkit-align-items: center;
+                align-items: center;
+            }
+            .box-text{
+                margin-left: 30px;
+                color: #333;
+                .box-title{
+                    font-weight: 500 !important;
 
+                }
+                .fs-22 {
+                    font-size: 22px !important;
+                }
+                .margin-bottom-10 {
+                    margin-bottom: 10px !important;
+                }
+                .nasa-block {
+                    display: block !important;
+                }
+                .box-desc{
+                    opacity: .8;
+
+                }
+            }
             .section-header {
                 justify-content: space-between;
                 align-items: center;
@@ -37,12 +93,13 @@
                     $text-font: 'Arial Black',sans-serif;
                     $animation-duration: 5s; // Thời gian chuyển đổi
                     .text-rainbow-animation {
-                        background : linear-gradient(to right,
-                                orange 0%,
-                                darkorange 25%,
-                                red 50%,
-                                darkred 75%,
-                                orange 100%);
+                        background: linear-gradient(to right,
+                        lightgreen 0%,
+                        green 25%,
+                        darkgreen 50%,
+                        forestgreen 75%,
+                        lightgreen 100%);
+
                         -webkit-background-clip: text;
                         -webkit-text-fill-color: transparent;
                         background-size        : 400% auto; // Tăng kích thước background để mượt mà hơn

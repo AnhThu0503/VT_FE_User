@@ -11,10 +11,10 @@ const Footer = () => {
       <div className="container" style={{ color: "#000000" }}>
         <div className="row py-4">
           <div className="col-sm-4 ">
-            <h5>SÓC TRĂNG SPECIAL</h5>
+            <h5>VEGETBALE RESH</h5>
             <p>
-              Chuyên cung cấp đặc sản Sóc Trăng chính gốc của những thương hiệu
-              uy tín nhất giao hàng tận nơi nhanh nhất.
+              Chuyên cung cấp nông sản sạch uy tín nhất giao hàng tận nơi nhanh
+              nhất.
             </p>
           </div>
           <div className="col-sm-3">
@@ -30,8 +30,7 @@ const Footer = () => {
           <div className="col-sm-2">
             <h5>LIÊN KẾT</h5>
             <p>
-              Bánh Pía sóc trăng <br /> Lạp xưởng <br /> Bánh Trung Thu <br />
-              Bưởi 5 roi <br /> Vú sữa tím
+              Rau củ <br /> Trái cây <br />
             </p>
           </div>
 
@@ -39,7 +38,10 @@ const Footer = () => {
             <h5>LIÊN HỆ</h5>
             <p>
               Hotline: 0358184035 <br />
-              Email: duonganhthu@gmail.com
+              <hr />
+              Email:phamhongphuong@gmail.com <br />
+              <hr />
+              Giờ hoạt động 8:00 đến 22:00
             </p>
           </div>
         </div>

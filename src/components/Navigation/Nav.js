@@ -118,7 +118,7 @@ const Nav = ({ flag, setFlag }) => {
             <img
               src={logo}
               className=""
-              style={{ width: "auto", height: "40px" }}
+              style={{ width: "130px", height: "45px" }}
             ></img>
           </Link>
           <button
@@ -337,15 +337,6 @@ const Nav = ({ flag, setFlag }) => {
                 </form>
               </li>
 
-              <li className="nav-item ">
-                <Link
-                  style={{ fontSize: "18px" }}
-                  className="nav-link btn mt-1"
-                  to="/blogs"
-                >
-                  Blog
-                </Link>
-              </li>
               {user.ND_id ? (
                 <>
                   <li className="nav-item ms-3 me-3">

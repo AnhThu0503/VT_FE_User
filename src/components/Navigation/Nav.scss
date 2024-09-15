@@ -4,24 +4,24 @@
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
 
     .nav-link {
-        color: #ff6c2d !important;
+        color: #6bad0d !important;
         font-family: "Nunito", sans-serif;
         font-optical-sizing: auto;
         font-weight: 400;
         font-style: normal;
         &:hover {
-            color: #ff4d00 !important;
+            color: #589108 !important;
             cursor: pointer;
         }
        
     }
 
     .btn-search {
-        outline: 2px solid #ff4d00;
-        color: #ff4d00;
+        outline: 2px solid #589108;
+        color: #589108;
 
         &:hover {
-            background-color: #ff4d00;
+            background-color: #589108;
             color: aliceblue;
         }
     }
@@ -53,11 +53,11 @@
     }
 
     .btn-login {
-        // border: 1px solid #ff4d00;
+        // border: 1px solid #589108;
 
         &:hover {
             cursor: pointer;
-            color: #ff4d00 !important;
+            color: #589108 !important;
 
         }
     }
@@ -88,13 +88,13 @@
     background-color: #ffffff !important;
     // box-shadow:none;
     .nav-link {
-        color: #ff6c2d !important;
+        color: #6bad0d !important;
     }
     .form-search {
         input {
             border-radius: 5px;
             background-color: rgba(255, 255, 255, 0.037); /* Màu trắng với độ trong suốt là 0.5 */
-            border: 1px solid #ff4d00;
+            border: 1px solid #589108;
         }
     }
 }
