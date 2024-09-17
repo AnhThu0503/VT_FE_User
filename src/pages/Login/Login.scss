@@ -3,7 +3,15 @@
     // min-height: 5cqh;
     padding-top: 20px;
     height: 100vh;
+    .btn-login {
+        background-color: #6bad0d;
+        color: #fff;
 
+        &:hover {
+            background-color: #589108 !important;
+            color: #fff;
+        }
+    }
     .container{
         height: 100%;
         display: flex;
@@ -26,15 +34,7 @@
                 }
             }
     
-            .btn-login {
-                background-color: #ff4d00;
-                color: #fff;
-    
-                &:hover {
-                    background-color: #e44400;
-                    color: #fff;
-                }
-            }
+         
     
             .btn-register {
                 background-color: #41695b;

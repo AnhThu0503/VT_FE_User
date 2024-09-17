@@ -3,6 +3,15 @@
     min-height: 65vh;
     // padding-top: 20px;
     height: 100vh;
+    .btn-register {
+        background-color: #6bad0d;
+        color: #fff;
+
+        &:hover {
+            background-color: #589108 !important;
+            color: #fff;
+        }
+    }
 .container{
     height: 100%;
         display: flex;
