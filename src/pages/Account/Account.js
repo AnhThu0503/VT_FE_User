@@ -5,6 +5,9 @@ import { UserContext } from "../../context/userContext";
 import axios from "axios";
 import { Menu } from "antd";
 import { IoPersonCircleOutline } from "react-icons/io5";
+import { BsInfoCircle } from "react-icons/bs";
+import { BsGeoAlt } from "react-icons/bs";
+import { BsBox } from "react-icons/bs";
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -17,19 +20,29 @@ function getItem(label, key, icon, children, type) {
 }
 const items = [
   getItem(
-    <Link to="" style={{ fontSize: "18px" }} className="item">
-      Thông tin
-    </Link>
+    <>
+      <BsInfoCircle className="fs-5 mb-1 me-2" />
+      <Link to="" style={{ fontSize: "18px" }} className="item">
+        Cập nhật thông tin cá nhân
+      </Link>
+    </>
   ),
   getItem(
-    <Link to="address" style={{ fontSize: "18px" }}>
-      Địa chỉ
-    </Link>
+    <>
+      <BsGeoAlt className="fs-5 mb-1 me-2" />
+      <Link to="address" style={{ fontSize: "18px" }}>
+        Cập nhật địa chỉ
+      </Link>
+    </>
   ),
   getItem(
-    <Link to="order" style={{ fontSize: "18px" }}>
-      Đơn hàng
-    </Link>
+    <>
+      <BsBox className="fs-5 mb-1 me-2" />
+
+      <Link to="order" style={{ fontSize: "18px" }}>
+        Quản lý đơn hàng
+      </Link>
+    </>
   ),
 ];
 
@@ -60,23 +73,23 @@ const Account = (props) => {
 
   return (
     <div
-      className="container-fluid account-background "
+      className="container-fluid  account-background"
       style={{ paddingTop: "4.5rem" }}
     >
-      <div className="container account-container">
-        <div
-          className="col-sm-12 p-5 box-user"
-          style={{ backgroundColor: " #ffffff", borderRadius: "10px" }}
-        >
-          <div className="box-user-left col-sm-3">
+      <div className="account-container mt-2 ">
+        <div className="col-sm-12 box-user " style={{ borderRadius: "10px" }}>
+          <div
+            className="box-user-left col-sm-3 p-4 mx-3 me-4"
+            style={{ backgroundColor: "#ffffff" }}
+          >
             <div className="box-user-left-top">
               <IoPersonCircleOutline
-                style={{ fontSize: "40px", color: "#ff4d00" }}
-                className=""
+                style={{ fontSize: "160px", color: "#b7b7b7" }}
               />
+              <br />
               <span
                 style={{
-                  color: "#ff4d00",
+                  color: "#6bad0d",
                   fontWeight: "500",
                   fontSize: "20px",
                 }}
@@ -84,9 +97,17 @@ const Account = (props) => {
                 {customer.ND_ten}
               </span>
             </div>
-            <Menu theme={"light"} style={{}} mode="inline" items={items} />
+            <Menu
+              theme={"light"}
+              mode="inline"
+              items={items}
+              className="ms-4"
+            />
           </div>
-          <div className="box-user-right col-sm-9 mt-3">
+          <div
+            className="box-user-right col-sm-8 p-4"
+            style={{ backgroundColor: "#ffffff" }}
+          >
             <Outlet context={[customer, setCustomer]} />
           </div>
         </div>

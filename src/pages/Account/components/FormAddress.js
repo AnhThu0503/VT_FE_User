@@ -56,7 +56,7 @@ const FormAddress = () => {
           type="primary"
           className="mt-3"
           onClick={updateAddress}
-          style={{ backgroundColor: "#ff4d00" }}
+          style={{ backgroundColor: "#6bad0d" }}
         >
           Cập nhật
         </Button>

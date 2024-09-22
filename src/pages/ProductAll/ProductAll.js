@@ -41,10 +41,10 @@ const AllProducts = () => {
 
   return (
     <div
-      className="container-fluid products-background my-4"
+      className="container-fluid products-background "
       style={{ paddingTop: "4.5rem" }}
     >
-      <div className="container products-container px-5 pt-4">
+      <div className="products-container px-5 pt-4 mt-2">
         <div className="d-flex " style={{ justifyContent: "end" }}>
           <p className="p-0 mb-0 mt-2 me-2" style={{ color: "#787878" }}>
             <BsFunnelFill className="fs-5 mb-1" /> Sắp xếp:
@@ -64,7 +64,7 @@ const AllProducts = () => {
         <div className="products-body row">
           {(sortedProducts.length > 0 ? sortedProducts : products).map(
             (item) => (
-              <div className="col-sm-3 my-4" key={item.id}>
+              <div className="col-sm-2 my-4" key={item.id}>
                 <Link
                   to={`/product/${item.SP_id}`}
                   style={{ textDecoration: "none" }}

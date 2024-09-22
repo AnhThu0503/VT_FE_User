@@ -146,7 +146,7 @@ const Nav = ({ flag, setFlag }) => {
                   aria-expanded="false"
                   style={{ fontSize: "18px" }}
                 >
-                  Danh sách sản phẩm
+                  Danh mục sản phẩm
                 </a>
                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li style={{ borderBottom: "1px solid #67666638" }}>

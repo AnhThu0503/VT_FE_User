@@ -123,7 +123,7 @@ const FormInfo = () => {
             <Button
               type="primary"
               htmlType="submit"
-              style={{ backgroundColor: "#ff4d00" }}
+              style={{ backgroundColor: "#6bad0d" }}
             >
               Cập nhật
             </Button>

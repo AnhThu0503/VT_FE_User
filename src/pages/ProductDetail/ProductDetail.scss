@@ -21,11 +21,11 @@
             background-color: #ffffff;
 
             .btn-comment {
-                background-color: #41695b;
+                background-color: #FF4D00;
                 color: #ffffff;
 
                 &:hover {
-                    background-color: #046644;
+                    background-color:  #e44400;
                     color: #ffffff;
                 }
             }
@@ -138,10 +138,12 @@
             .btn-add-cart {
                 border-radius: 10px;
                 color: #ffffff;
-                background-color: #FF4D00;
+                // background-color: #FF4D00;
+                background-color: #6bad0d;
 
                 &:hover {
-                    background-color: #e44400;
+                    // background-color: #e44400;
+                    background-color: #589108;
                     color: #fff;
                 }
             }

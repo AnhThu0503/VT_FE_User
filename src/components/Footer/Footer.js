@@ -11,7 +11,7 @@ const Footer = () => {
       <div className="container" style={{ color: "#000000" }}>
         <div className="row py-4">
           <div className="col-sm-4 ">
-            <h5>VEGETBALE RESH</h5>
+            <h5>FRESH VEGETABLE</h5>
             <p>
               Chuyên cung cấp nông sản sạch uy tín nhất giao hàng tận nơi nhanh
               nhất.

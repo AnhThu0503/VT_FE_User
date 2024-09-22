@@ -29,16 +29,16 @@ const Products = (props) => {
 
   return (
     <div
-      className="container-fluid products-background my-4"
+      className="container-fluid products-background "
       style={{ paddingTop: "4.5rem" }}
     >
       {/* <Nav /> */}
-      <div className="container products-container px-5 pt-4">
+      <div className="products-container px-5 pt-4 mt-2">
         <p className="title-primary">{category.DMSP_ten}</p>
         <div className="products-body row">
           {products.length > 0 ? (
             products.map((item) => (
-              <div className="col-sm-3 my-4" key={item.id}>
+              <div className="col-sm-2 my-4" key={item.id}>
                 <Link
                   to={`/product/${item.SP_id}`}
                   style={{ textDecoration: "none" }}

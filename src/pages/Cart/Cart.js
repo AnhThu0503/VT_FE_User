@@ -8,7 +8,7 @@ import { notification, Select } from "antd";
 import { loadStripe } from "@stripe/stripe-js";
 import { Input, Radio, Space } from "antd";
 import PayPal from "../../assets/Banner/PayPal-logo.png";
-import thanhtoan from "../../assets/Banner/chuyen-phat-nhanh.jpeg";
+import thanhtoan from "../../assets/Banner/deliver2.webp";
 
 import { BsFillPersonFill } from "react-icons/bs";
 import { BsFillGeoAltFill } from "react-icons/bs";
@@ -269,17 +269,19 @@ const Cart = () => {
   };
 
   return (
-    <div className="cart-background " style={{ paddingTop: "4.5rem" }}>
+    <div className="cart-background mx-3 " style={{ paddingTop: "4.5rem" }}>
       {/* <Nav /> */}
       {contextHolder}
 
-      <div className="container p-4" style={{ backgroundColor: "#ffffff" }}>
+      <div
+        className="container-fluid p-4 mt-2"
+        style={{ backgroundColor: "#ffffff" }}
+      >
         <h3>Giỏ hàng</h3>
         <div className="table-responsive">
           <table className="table table-light  mt-2">
             <thead>
               <tr>
-                <th scope="col">STT</th>
                 <th scope="col"></th>
                 <th scope="col">Tên sản phẩm</th>
 
@@ -293,7 +295,6 @@ const Cart = () => {
               {products &&
                 products.map((item, idx) => (
                   <tr key={item.SP_id}>
-                    <td style={{ verticalAlign: "middle" }}>{idx + 1}</td>
                     <td scope="row" style={{ verticalAlign: "middle" }}>
                       <img src={item.image} className="img-fluid img-product" />
                     </td>
@@ -382,7 +383,7 @@ const Cart = () => {
                       className="text-end"
                     >
                       <button
-                        className="btn btn-delete"
+                        className="btn  btn-danger"
                         onClick={() => removeItem(item.SPGH_id)}
                       >
                         Xóa

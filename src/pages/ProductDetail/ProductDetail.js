@@ -345,7 +345,7 @@ const ProductDetail = () => {
                     <div className="d-flex">
                       <CaretRightFill
                         className="mt-1"
-                        style={{ color: "#FF4D00" }}
+                        style={{ color: "#6bad0d" }}
                       />
                       <h4
                         className="product-description-title"

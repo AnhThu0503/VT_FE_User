@@ -7,7 +7,6 @@
     padding-right: 0 !important;
 
     .account-container {
-        background-color: #ffffff;
 
         .table-account {
             .table-title {
@@ -34,9 +33,7 @@
 }
 
 .box-user {
-    width: 100%;
     display: flex;
-    align-items: self-start;
 
     .box-user-left {
         padding-right: 1em;
@@ -44,14 +41,11 @@
     }
 
     .box-user-left-top {
-        display: flex;
-        align-items: center;
         padding-bottom: 1em;
         margin-bottom: 1em;
         border-bottom: 1px solid #e5e4f2;
-       
+        text-align: center;
         span {
-            margin-left: 5px;
         }
     }
 
@@ -66,7 +60,6 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
             height: 100%;
             display: flex;
             justify-content: center;

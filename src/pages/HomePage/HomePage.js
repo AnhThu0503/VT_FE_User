@@ -64,8 +64,8 @@ const HomePage = (props) => {
       </div>
       <div className="container-fluid homepage-container mt-4">
         <div>
-          <div className=" section-container p-5 my-3 d-flex">
-            <div className="col-sm-3 d-flex">
+          <div className=" section-container p-5 my-3 row">
+            <div className="col-lg-3 col-md-6 col-sm-6 col-12 d-flex">
               <div className="col-sm-4 box-img nasa-flex jc">
                 <img src={box1} className="" alt="Box 1" />
               </div>
@@ -79,7 +79,7 @@ const HomePage = (props) => {
                 </p>
               </div>
             </div>
-            <div className="col-sm-3 d-flex">
+            <div className="col-lg-3 col-md-6 col-sm-6 col-12 d-flex">
               <div className="col-sm-4 box-img nasa-flex jc">
                 <img src={box2} className="" alt="Box 1" />
               </div>
@@ -93,7 +93,7 @@ const HomePage = (props) => {
                 </p>
               </div>
             </div>
-            <div className="col-sm-3 d-flex">
+            <div className="col-lg-3 col-md-6 col-sm-6 col-12 d-flex">
               <div className="col-sm-4 box-img nasa-flex jc">
                 <img src={box3} className="" alt="Box 1" />
               </div>
@@ -107,7 +107,7 @@ const HomePage = (props) => {
                 </p>
               </div>
             </div>
-            <div className="col-sm-3 d-flex">
+            <div className="col-lg-3 col-md-6 col-sm-6 col-12 d-flex">
               <div className="col-sm-4 box-img nasa-flex jc">
                 <img src={box4} className="" alt="Box 1" />
               </div>
