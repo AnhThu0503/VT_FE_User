@@ -275,7 +275,7 @@ const ProductDetail = () => {
                 <div className="col-12 col-sm-12 col-md-6">
                   <h3 className="product-titlle p-0 m-0">
                     {product.SP_ten} {product.SP_trongLuong}{" "}
-                    {product.SP_donViTinh}
+                    {product.SP_donViTinh} - P0{product.SP_id}
                   </h3>
                   <div className="d-flex">
                     <p className="m-0 p-0 me-1">

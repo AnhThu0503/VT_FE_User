@@ -8,6 +8,7 @@ const key = "updatable";
 const FormOeder = () => {
   const { user, setUser } = useContext(UserContext);
   const [orders, setOrders] = useState([]);
+  const [maDH, setMaDH] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOrderOpen, setIsModalOrderOpen] = useState(false);
   const [api, contextHolder] = notification.useNotification();
@@ -36,6 +37,7 @@ const FormOeder = () => {
       response.data.forEach((data, index) => {
         arrtmp.push({
           DH_id: data.order.DH_id,
+          ma_DH: `P0${data.order.DH_id}`,
           DH_trangThai: data.order.DH_trangThai,
           DH_phuongThucTT: data.order.DH_phuongThucTT,
 
@@ -80,6 +82,10 @@ const FormOeder = () => {
     }
   };
   const columns = [
+    {
+      title: "Mã ĐH",
+      dataIndex: "ma_DH",
+    },
     {
       title: "Ngày đặt",
       dataIndex: "DH_ngayDat",

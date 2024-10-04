@@ -336,7 +336,15 @@ const Nav = ({ flag, setFlag }) => {
                   )}
                 </form>
               </li>
-
+              <li className="nav-item ">
+                <Link
+                  style={{ fontSize: "18px" }}
+                  className="nav-link btn mt-1"
+                  to="/blogs"
+                >
+                  Tin tức
+                </Link>
+              </li>
               {user.ND_id ? (
                 <>
                   <li className="nav-item ms-3 me-3">

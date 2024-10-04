@@ -64,7 +64,7 @@ const AllProducts = () => {
         <div className="products-body row">
           {(sortedProducts.length > 0 ? sortedProducts : products).map(
             (item) => (
-              <div className="col-sm-2 my-4" key={item.id}>
+              <div className="col-sm-3 my-4" key={item.id}>
                 <Link
                   to={`/product/${item.SP_id}`}
                   style={{ textDecoration: "none" }}

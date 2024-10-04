@@ -38,7 +38,7 @@ const Products = (props) => {
         <div className="products-body row">
           {products.length > 0 ? (
             products.map((item) => (
-              <div className="col-sm-2 my-4" key={item.id}>
+              <div className="col-sm-3 my-4" key={item.id}>
                 <Link
                   to={`/product/${item.SP_id}`}
                   style={{ textDecoration: "none" }}
